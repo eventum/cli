@@ -1,0 +1,31 @@
+{
+	"name": "eventum/cli",
+	"description": "Eventum CLI Working over Eventum XMLRPC",
+	"type": "project",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Elan Ruusamäe",
+			"email": "glen@delfi.ee",
+			"role": "Developer"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://raw.githubusercontent.com/eventum/composer/repo/"
+		}
+	],
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"eventum/rpc": "~3.0.0",
+		"php": ">=5.3.4",
+		"symfony/console": "~2.5.7"
+	},
+	"autoload": {
+		"psr-4" : {
+			"Eventum\\Console\\" : "src/"
+		}
+	}
+}

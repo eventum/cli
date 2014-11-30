@@ -1,0 +1,183 @@
+<?php
+
+namespace Eventum\Console\Command;
+
+use Eventum\Console\AuthHelper;
+use Eventum\Console\Config;
+use Eventum\Console\IO;
+use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use InvalidArgumentException;
+use RuntimeException;
+use Eventum_RPC;
+
+class Command extends BaseCommand
+{
+    /**
+     * @var InputInterface
+     */
+    protected $input;
+
+    /**
+     * @var OutputInterface
+     */
+    protected $output;
+
+    /**
+     * @var IO
+     */
+    protected $io;
+
+    /**
+     * @var AuthHelper
+     */
+    protected $auth;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var Eventum_RPC
+     */
+    protected $client;
+
+    /**
+     * Initializes the command just after the input has been validated.
+     *
+     * @param InputInterface $input An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->input = $input;
+        $this->output = $output;
+        $this->io = new IO($input, $output, $this->getHelperSet());
+
+        // Load config and override with local config/auth config
+        $this->config = new Config();
+
+        // load auth configs into the IO instance
+        $this->auth = new AuthHelper();
+        $this->auth->loadConfiguration($this->config);
+    }
+
+    /**
+     * @return \RemoteApi
+     */
+    protected function getClient()
+    {
+        if (!$this->client) {
+            $url = $this->getUrl();
+
+            if ($this->auth->hasAuthentication($url)) {
+                $auth = $this->auth->getAuthentication($url);
+            } else {
+                $this->output->writeln('    Authentication required (<info>' . $url . '</info>):');
+                $defaultUsername = null;
+                $auth = array(
+                    'username' => $this->io->ask('      Username: ', $defaultUsername),
+                    'password' => $this->io->askHidden('      Password: '),
+                );
+                $this->auth->setAuthentication($url, $auth['username'], $auth['password']);
+
+                $storeAuth = $this->config->get('store-auths');
+                $this->storeAuth($url, $storeAuth);
+            }
+
+            $client = new Eventum_RPC($url);
+            $client->setCredentials($auth['username'], $auth['password']);
+
+            // set debug if verbosity debug
+            if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+                $client->setDebug(1);
+            }
+
+            $this->client = $client;
+        }
+
+        return $this->client;
+    }
+
+    private function getUrl()
+    {
+        $url = $this->input->getOption('url') ?: $this->config->get('url');
+
+        if (!$url) {
+            $url = $this->io->ask('    Eventum RPC URL: ');
+            if (!$url) {
+                throw new InvalidArgumentException('URL must be provided');
+            }
+        }
+
+        return $url;
+    }
+
+    private function storeAuth($url, $storeAuth)
+    {
+        $store = false;
+        if ($storeAuth === true) {
+            $store = true;
+        } elseif ($storeAuth === 'prompt') {
+            $answer = $this->io->askAndValidate(
+                'Do you want to store credentials for '.$url.' ? [Yn] ',
+                function ($value) {
+                    $input = strtolower(substr(trim($value), 0, 1));
+                    if (in_array($input, array('y','n'))) {
+                        return $input;
+                    }
+                    throw new RuntimeException('Please answer (y)es or (n)o');
+                },
+                false,
+                'y'
+            );
+
+            if ($answer === 'y') {
+                $store = true;
+            }
+        }
+
+        if ($store) {
+            $this->config->set('url', $url);
+            $this->config->set('http-basic.' . $url, $this->auth->getAuthentication($url));
+            $this->config->save();
+        }
+    }
+
+    /**
+     * If user has not specified project id via commandline,
+     * ask it from user, unless user belongs to exactly one project.
+     *
+     * @return int
+     */
+    protected function getProjectId()
+    {
+        $project_id = $this->input->getOption('project');
+        if ($project_id) {
+            return $project_id;
+        }
+
+        $res = $this->getClient()->getUserAssignedProjects(false);
+        if (!$res) {
+            throw new InvalidArgumentException("User has no projects");
+        }
+
+        // if user has only one project. return that
+        if (count($res) == 1) {
+            $project = current($res);
+            return $project['id'];
+        }
+
+        // convert to sane array
+        $projects = array();
+        foreach ($res as $i => $project) {
+            $projects[$project['id']] = $project['title'];
+        }
+
+        $project = $this->io->askChoices('Project:', $projects, 'Project %s is invalid.');
+        $project_id = array_search($project, $projects);
+        return $project_id;
+    }
+} 
