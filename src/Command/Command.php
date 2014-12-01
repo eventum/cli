@@ -122,10 +122,10 @@ class Command extends BaseCommand
             $store = true;
         } elseif ($storeAuth === 'prompt') {
             $answer = $this->io->askAndValidate(
-                'Do you want to store credentials for '.$url.' ? [Yn] ',
+                'Do you want to store credentials for ' . $url . ' ? [Yn] ',
                 function ($value) {
                     $input = strtolower(substr(trim($value), 0, 1));
-                    if (in_array($input, array('y','n'))) {
+                    if (in_array($input, array('y', 'n'))) {
                         return $input;
                     }
                     throw new RuntimeException('Please answer (y)es or (n)o');
@@ -156,7 +156,7 @@ class Command extends BaseCommand
     {
         $project_id = $this->input->getOption('project');
         if ($project_id) {
-            return $project_id;
+            return (int)$project_id;
         }
 
         $res = $this->getClient()->getUserAssignedProjects(false);
@@ -167,7 +167,7 @@ class Command extends BaseCommand
         // if user has only one project. return that
         if (count($res) == 1) {
             $project = current($res);
-            return $project['id'];
+            return (int)$project['id'];
         }
 
         // convert to sane array
@@ -178,6 +178,6 @@ class Command extends BaseCommand
 
         $project = $this->io->askChoices('Project:', $projects, 'Project %s is invalid.');
         $project_id = array_search($project, $projects);
-        return $project_id;
+        return (int)$project_id;
     }
 } 
