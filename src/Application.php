@@ -35,6 +35,7 @@ class Application extends BaseApplication
 
         $commands[] = new Command\ListIssuesCommand;
         $commands[] = new Command\IssueDetailsCommand;
+        $commands[] = new Command\WeeklyReportCommand;
 
         return $commands;
     }
