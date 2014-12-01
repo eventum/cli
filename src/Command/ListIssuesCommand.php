@@ -45,7 +45,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $status = (string)$input->getOption('status');
-        $show_all_issues = $input->getOption('my') != null;
+        $show_all_issues = $input->getOption('my') == null;
         $project_id = $this->getProjectId();
 
         $issues = $this->getClient()->getOpenIssues((int)$project_id, $show_all_issues, $status);
