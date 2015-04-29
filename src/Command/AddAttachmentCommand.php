@@ -71,6 +71,16 @@ EOT
         $client = $this->getClient();
         $res = $client->addFile($issue_id, $filename, $mimetype, $contents, $file_description, $internal_only);
 
-        $output->writeln("Uploaded <info>OK</info>, id={$res['iaf_id']}");
+        $url = $this->getEventumUrl();
+        $url .= "/download.php?cat=attachment&id={$res['iaf_id']}";
+
+        if ($internal_only) {
+            $status = "<fg=red>internal</fg=red>";
+        } else {
+            $status = "<fg=yellow>public</fg=yellow>";
+        }
+        $output->writeln("<info>Uploaded</info> $status file: $filename");
+        $output->writeln("<comment>To view</comment>: $url&force_inline=1");
+        $output->writeln("<comment>To download</comment>: $url");
     }
 }
