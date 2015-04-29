@@ -1,0 +1,30 @@
+{
+    "alias": "eventum",
+    "chmod": "0755",
+    "finder": [
+        {
+            "name": [
+                "eventum.php"
+            ],
+            "in": "."
+        },
+        {
+            "name": [
+                "*.php"
+            ],
+            "in": "src"
+        },
+        {
+            "name": [
+                "*.php"
+            ],
+            "in": "vendor"
+        }
+    ],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "main": "eventum.php",
+    "output": "eventum.phar",
+    "stub": true
+}

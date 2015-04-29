@@ -1,5 +1,6 @@
 /.idea/
 /vendor/
+/eventum.phar
 
 # vim
 [._]*.s[a-w][a-z]
