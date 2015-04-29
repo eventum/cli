@@ -101,6 +101,16 @@ class Command extends BaseCommand
         return $this->client;
     }
 
+    /**
+     * @return string URL to Eventum frontpage
+     */
+    protected function getEventumUrl() {
+        $url = $this->getUrl();
+        $url = substr($url, 0, -strlen("/rpc/xmlrpc.php"));
+
+        return $url;
+    }
+
     private function getUrl()
     {
         $url = $this->input->getOption('url') ?: $this->config->get('url');
