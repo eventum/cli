@@ -79,7 +79,8 @@ EOT
         } else {
             $status = "<fg=yellow>public</fg=yellow>";
         }
-        $output->writeln("<info>Uploaded</info> $status file: $filename");
+        $filesize = $this->converters->formatMemory(strlen($contents), 2);
+        $output->writeln("<info>Uploaded</info> $status file: $filename, $filesize");
         $output->writeln("<comment>To view</comment>: $url&force_inline=1");
         $output->writeln("<comment>To download</comment>: $url");
     }
