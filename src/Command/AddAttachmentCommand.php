@@ -90,7 +90,7 @@ EOT
         } else {
             $status = "<fg=yellow>public</fg=yellow>";
         }
-        $filesize = $this->converters->formatMemory(strlen($contents), 2);
+        $filesize = $this->util->formatMemory(strlen($contents), 2);
         $output->writeln("Uploaded '$filename' ($filesize) to issue $issue_url");
         $output->writeln("Status: $status");
         $output->writeln("Description: $file_description");
@@ -120,8 +120,8 @@ EOT
             return;
         }
 
-        $max = $this->converters->formatMemory($max, 2);
-        $filesize = $this->converters->formatMemory($filesize, 2);
+        $max = $this->util->formatMemory($max, 2);
+        $filesize = $this->util->formatMemory($filesize, 2);
         throw new \InvalidArgumentException("Uploaded file too big: $filesize, max filesize $max");
     }
 

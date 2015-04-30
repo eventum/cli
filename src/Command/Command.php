@@ -4,7 +4,7 @@ namespace Eventum\Console\Command;
 
 use Eventum\Console\AuthHelper;
 use Eventum\Console\Config;
-use Eventum\Console\Converters;
+use Eventum\Console\Util;
 use Eventum\Console\IO;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,9 +36,9 @@ class Command extends BaseCommand
     protected $io;
 
     /**
-     * @var Converters
+     * @var Util
      */
-    protected $converters;
+    protected $util;
 
     /**
      * @var AuthHelper
@@ -66,7 +66,7 @@ class Command extends BaseCommand
         $this->input = $input;
         $this->output = $output;
         $this->io = new IO($input, $output, $this->getHelperSet());
-        $this->converters = new Converters();
+        $this->util = new Util();
 
         // Load config and override with local config/auth config
         $this->config = new Config();

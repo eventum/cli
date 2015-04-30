@@ -2,7 +2,12 @@
 
 namespace Eventum\Console;
 
-class Converters
+/**
+ * Various utility methods
+ *
+ * @package Eventum\Console
+ */
+class Util
 {
     /**
      * Format a byte count into a human-readable representation.
