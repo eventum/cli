@@ -90,18 +90,31 @@ class Command extends BaseCommand
                 $auth = $this->askAuthentication($url);
             }
 
-            $client = new Eventum_RPC($url);
-            $client->setCredentials($auth['username'], $auth['password']);
-
-            // set debug if verbosity debug
-            if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-                $client->setDebug(1);
-            }
-
-            $this->client = $client;
+            $this->client = $this->createClient($url, $auth['username'], $auth['password']);
         }
 
         return $this->client;
+    }
+
+    /**
+     * Create Eventum_RPC, configure it's debug level
+     *
+     * @param string $url
+     * @param string $username
+     * @param string $password
+     * @return \RemoteApi|Eventum_RPC $client
+     */
+    private function createClient($url, $username, $password)
+    {
+        $client = new Eventum_RPC($url);
+        $client->setCredentials($username, $password);
+
+        // set debug if verbosity debug
+        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+            $client->setDebug(1);
+        }
+
+        return $client;
     }
 
     /**
@@ -121,9 +134,7 @@ class Command extends BaseCommand
             );
             $defaultUsername = $auth['username'];
 
-            /** @var \RemoteApi|Eventum_RPC $client */
-            $client = new Eventum_RPC($url);
-            $client->setCredentials($auth['username'], $auth['password']);
+            $client = $this->createClient($url, $auth['username'], $auth['password']);
 
             try {
                 $client->checkAuthentication();
