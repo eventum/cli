@@ -66,7 +66,7 @@ EOT
         $filename = $input->getOption('filename') ?: basename($file);
         $mimetype = $input->getOption('mimetype') ?: 'application/octet-stream';
         $contents = file_get_contents($file);
-        $file_description = $input->getOption('description') ?: '';
+        $file_description = $input->getOption('description') ?: $this->getFileDescription($file);
         $internal_only = $input->getOption('internal');
 
         $client = $this->getClient();
@@ -93,8 +93,24 @@ EOT
         $filesize = $this->converters->formatMemory(strlen($contents), 2);
         $output->writeln("Uploaded '$filename' ($filesize) to issue $issue_url");
         $output->writeln("Status: $status");
+        $output->writeln("Description: $file_description");
         $output->writeln("<comment>To view</comment>: $dl_url&force_inline=1");
         $output->writeln("<comment>To download</comment>: $dl_url");
+    }
+
+    /**
+     * Generate automatic description for file
+     *
+     * @param string $file
+     * @return string
+     */
+    private function getFileDescription($file)
+    {
+        $hostname = gethostname();
+        $file = realpath($file);
+        $description = "File {$file} uploaded from {$hostname} via CLI";
+
+        return $description;
     }
 
     private function checkFilesize($filesize)
