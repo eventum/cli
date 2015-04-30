@@ -63,9 +63,9 @@ EOT
     {
         $issue_id = (int )$input->getArgument('issue_id');
         $file = $input->getArgument('file');
-        $filename = $input->getOption('filename') ?: basename($file);
-        $mimetype = $input->getOption('mimetype') ?: 'application/octet-stream';
         $contents = file_get_contents($file);
+        $filename = $input->getOption('filename') ?: basename($file);
+        $mimetype = $input->getOption('mimetype') ?: $this->util->getFileMimeType($file);
         $file_description = $input->getOption('description') ?: $this->getFileDescription($file);
         $internal_only = $input->getOption('internal');
 
@@ -94,6 +94,7 @@ EOT
         $output->writeln("Uploaded '$filename' ($filesize) to issue $issue_url");
         $output->writeln("Status: $status");
         $output->writeln("Description: $file_description");
+        $output->writeln("MIME-Type: $mimetype");
         $output->writeln("<comment>To view</comment>: $dl_url&force_inline=1");
         $output->writeln("<comment>To download</comment>: $dl_url");
     }
