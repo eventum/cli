@@ -73,8 +73,9 @@ EOT
         $binary = $client->encodeBinary($contents);
         $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
 
-        $url = $this->getEventumUrl();
-        $url .= "/download.php?cat=attachment&id={$res['iaf_id']}";
+        $baseurl = $this->getEventumUrl();
+        $dl_url = "{$baseurl}/download.php?cat=attachment&id={$res['iaf_id']}";
+        $issue_url = "{$baseurl}/view.php?id=$issue_id";
 
         if ($internal_only) {
             $status = "<fg=red>internal</fg=red>";
@@ -82,8 +83,9 @@ EOT
             $status = "<fg=yellow>public</fg=yellow>";
         }
         $filesize = $this->converters->formatMemory(strlen($contents), 2);
-        $output->writeln("<info>Uploaded</info> $status file: $filename, $filesize");
-        $output->writeln("<comment>To view</comment>: $url&force_inline=1");
-        $output->writeln("<comment>To download</comment>: $url");
+        $output->writeln("Uploaded '$filename' ($filesize) to issue $issue_url");
+        $output->writeln("Status: $status");
+        $output->writeln("<comment>To view</comment>: $dl_url&force_inline=1");
+        $output->writeln("<comment>To download</comment>: $dl_url");
     }
 }
