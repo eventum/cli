@@ -53,7 +53,7 @@ class Command extends BaseCommand
     /**
      * @var Eventum_RPC
      */
-    protected $client;
+    private $client;
 
     /**
      * Initializes the command just after the input has been validated.
