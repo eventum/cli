@@ -12,7 +12,7 @@ class WeeklyReportCommand extends Command
     {
         $this
             ->setName('weekly-report')
-            ->setAliases(['wr'])
+            ->setAliases(array('wr'))
             ->setDescription('List open issues')
             ->addArgument(
                 'start',
