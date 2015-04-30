@@ -158,14 +158,14 @@ class Command extends BaseCommand
             if (!$url) {
                 throw new InvalidArgumentException('URL must be provided');
             }
+        }
 
-            // allow user input url with trailing slash
-            $url = rtrim($url, '/');
+        // allow user input url with trailing slash
+        $url = rtrim($url, '/');
 
-            // append rpc path
-            if (substr($url, -strlen(self::RPC_PATH)) != self::RPC_PATH) {
-                $url .= self::RPC_PATH;
-            }
+        // append rpc path
+        if (substr($url, -strlen(self::RPC_PATH)) != self::RPC_PATH) {
+            $url .= self::RPC_PATH;
         }
 
         return $url;
