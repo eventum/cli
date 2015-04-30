@@ -69,7 +69,9 @@ EOT
         $internal_only = $input->getOption('internal');
 
         $client = $this->getClient();
-        $res = $client->addFile($issue_id, $filename, $mimetype, $contents, $file_description, $internal_only);
+
+        $binary = $client->encodeBinary($contents);
+        $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
 
         $url = $this->getEventumUrl();
         $url .= "/download.php?cat=attachment&id={$res['iaf_id']}";

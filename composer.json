@@ -19,7 +19,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
-		"eventum/rpc": "~3.0.0",
+		"eventum/rpc": "~3.0.1",
 		"php": ">=5.3.4",
 		"symfony/console": "~2.5.7"
 	},
