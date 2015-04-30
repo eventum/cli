@@ -16,6 +16,11 @@ use Eventum_RPC;
 class Command extends BaseCommand
 {
     /**
+     * URI path to RPC endpoint in Eventum server
+     */
+    const RPC_PATH = '/rpc/xmlrpc.php';
+
+    /**
      * @var InputInterface
      */
     protected $input;
@@ -82,7 +87,7 @@ class Command extends BaseCommand
             if ($this->auth->hasAuthentication($url)) {
                 $auth = $this->auth->getAuthentication($url);
             } else {
-                $this->output->writeln('    Authentication required (<info>' . $url . '</info>):');
+                $this->output->writeln("    Authentication required (<info>{$url}</info>):");
                 $defaultUsername = null;
                 $auth = array(
                     'username' => $this->io->ask('      Username: ', $defaultUsername),
@@ -113,7 +118,7 @@ class Command extends BaseCommand
      */
     protected function getEventumUrl() {
         $url = $this->getUrl();
-        $url = substr($url, 0, -strlen("/rpc/xmlrpc.php"));
+        $url = substr($url, 0, -strlen(self::RPC_PATH));
 
         return $url;
     }
@@ -123,9 +128,17 @@ class Command extends BaseCommand
         $url = $this->input->getOption('url') ?: $this->config->get('url');
 
         if (!$url) {
-            $url = $this->io->ask('    Eventum RPC URL: ');
+            $url = $this->io->ask('    Eventum URL: ');
             if (!$url) {
                 throw new InvalidArgumentException('URL must be provided');
+            }
+
+            // allow user input url with trailing slash
+            $url = rtrim($url, '/');
+
+            // append rpc path
+            if (substr($url, -strlen(self::RPC_PATH)) != self::RPC_PATH) {
+                $url .= self::RPC_PATH;
             }
         }
 

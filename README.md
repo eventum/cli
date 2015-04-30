@@ -14,7 +14,7 @@ This is new Eventum CLI Application.
 You need to specify `--url` for the first time, url and optionally login credentials will be saved to `~/.eventum.json`
 
 ```txt
-$ eventum.phar --url=http://eventum.example.org/rpc/xmlrpc.php wr
+$ eventum.phar --url=http://eventum.example.org wr
     Authentication required (http://eventum.example.org/rpc/xmlrpc.php):
       Username: glen
       Password: 
