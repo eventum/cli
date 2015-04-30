@@ -51,7 +51,7 @@ class Command extends BaseCommand
     protected $config;
 
     /**
-     * @var Eventum_RPC
+     * @var \RemoteApi|Eventum_RPC
      */
     private $client;
 
@@ -83,6 +83,12 @@ class Command extends BaseCommand
     {
         if (!$this->client) {
             $url = $this->getUrl();
+            $this->client = new Eventum_RPC($url);
+
+            // set debug if verbosity debug
+            if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+                $this->client->setDebug(1);
+            }
 
             if ($this->auth->hasAuthentication($url)) {
                 $auth = $this->auth->getAuthentication($url);
@@ -90,31 +96,10 @@ class Command extends BaseCommand
                 $auth = $this->askAuthentication($url);
             }
 
-            $this->client = $this->createClient($url, $auth['username'], $auth['password']);
+            $this->client->setCredentials($auth['username'], $auth['password']);
         }
 
         return $this->client;
-    }
-
-    /**
-     * Create Eventum_RPC, configure it's debug level
-     *
-     * @param string $url
-     * @param string $username
-     * @param string $password
-     * @return \RemoteApi|Eventum_RPC $client
-     */
-    private function createClient($url, $username, $password)
-    {
-        $client = new Eventum_RPC($url);
-        $client->setCredentials($username, $password);
-
-        // set debug if verbosity debug
-        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
-            $client->setDebug(1);
-        }
-
-        return $client;
     }
 
     /**
@@ -134,10 +119,10 @@ class Command extends BaseCommand
             );
             $defaultUsername = $auth['username'];
 
-            $client = $this->createClient($url, $auth['username'], $auth['password']);
+            $this->client->setCredentials($auth['username'], $auth['password']);
 
             try {
-                $client->checkAuthentication();
+                $this->client->checkAuthentication();
                 $this->auth->setAuthentication($url, $auth['username'], $auth['password']);
 
                 $storeAuth = $this->config->get('store-auths');
