@@ -2,6 +2,7 @@
 
 namespace Eventum\Console;
 
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -36,6 +37,7 @@ class IO
      */
     public function ask($question, $default = null)
     {
+        /** @var QuestionHelper $helper */
         $helper = $this->helperSet->get('question');
         $question = new Question($question, $default);
 
@@ -47,6 +49,7 @@ class IO
      */
     public function askHidden($question, $default = null)
     {
+        /** @var QuestionHelper $helper */
         $helper = $this->helperSet->get('question');
         $question = new Question($question, $default);
         $question->setHidden(true);
@@ -60,6 +63,7 @@ class IO
      */
     public function askChoices($question, $choices, $errorMessage, $default = null)
     {
+        /** @var QuestionHelper $helper */
         $helper = $this->helperSet->get('question');
         $question = new ChoiceQuestion($question, $choices, $default);
         $question->setErrorMessage($errorMessage);

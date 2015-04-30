@@ -87,16 +87,7 @@ class Command extends BaseCommand
             if ($this->auth->hasAuthentication($url)) {
                 $auth = $this->auth->getAuthentication($url);
             } else {
-                $this->output->writeln("    Authentication required (<info>{$url}</info>):");
-                $defaultUsername = null;
-                $auth = array(
-                    'username' => $this->io->ask('      Username: ', $defaultUsername),
-                    'password' => $this->io->askHidden('      Password: '),
-                );
-                $this->auth->setAuthentication($url, $auth['username'], $auth['password']);
-
-                $storeAuth = $this->config->get('store-auths');
-                $this->storeAuth($url, $storeAuth);
+                $auth = $this->askAuthentication($url);
             }
 
             $client = new Eventum_RPC($url);
@@ -114,9 +105,48 @@ class Command extends BaseCommand
     }
 
     /**
+     * Ask authentication credentials, retry several times
+     *
+     * @param string $url
+     * @return array
+     */
+    private function askAuthentication($url, $retry = 3)
+    {
+        $defaultUsername = null;
+        for ($i = 0; $i < $retry; $i++) {
+            $this->output->writeln("    Authentication required (<info>{$url}</info>):");
+            $auth = array(
+                'username' => $this->io->ask('      Username' . ($defaultUsername ? " [$defaultUsername]: " : ': '), $defaultUsername),
+                'password' => $this->io->askHidden('      Password: '),
+            );
+            $defaultUsername = $auth['username'];
+
+            /** @var \RemoteApi|Eventum_RPC $client */
+            $client = new Eventum_RPC($url);
+            $client->setCredentials($auth['username'], $auth['password']);
+
+            try {
+                $client->checkAuthentication();
+                $this->auth->setAuthentication($url, $auth['username'], $auth['password']);
+
+                $storeAuth = $this->config->get('store-auths');
+                $this->storeAuth($url, $storeAuth);
+
+                return $auth;
+            } catch (\Eventum_RPC_Exception $e) {
+                $this->output->writeln("<error>ERROR: {$e->getMessage()}</error>");
+            }
+            $this->output->writeln("");
+        }
+
+        throw new \RuntimeException("Unable to authenticate");
+    }
+
+    /**
      * @return string URL to Eventum frontpage
      */
-    protected function getEventumUrl() {
+    protected function getEventumUrl()
+    {
         $url = $this->getUrl();
         $url = substr($url, 0, -strlen(self::RPC_PATH));
 
