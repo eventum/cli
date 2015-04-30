@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Eventum_RPC_Exception;
 
 class AddAttachmentCommand extends Command
 {
@@ -71,7 +72,14 @@ EOT
         $client = $this->getClient();
 
         $binary = $client->encodeBinary($contents);
-        $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
+        try {
+            $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
+        } catch (Eventum_RPC_Exception $e) {
+            if ($e->getMessage() == "XML error: Invalid document end at line 1") {
+                $this->checkFilesize(strlen($contents));
+            }
+            throw $e;
+        }
 
         $baseurl = $this->getEventumUrl();
         $dl_url = "{$baseurl}/download.php?cat=attachment&id={$res['iaf_id']}";
@@ -87,5 +95,27 @@ EOT
         $output->writeln("Status: $status");
         $output->writeln("<comment>To view</comment>: $dl_url&force_inline=1");
         $output->writeln("<comment>To download</comment>: $dl_url");
+    }
+
+    private function checkFilesize($filesize)
+    {
+        $max = $this->getMaxFileSize();
+        if ($filesize <= $max) {
+            return;
+        }
+
+        $max = $this->converters->formatMemory($max, 2);
+        $filesize = $this->converters->formatMemory($filesize, 2);
+        throw new \InvalidArgumentException("Uploaded file too big: $filesize, max filesize $max");
+    }
+
+    /**
+     * Get Eventum server upload_max_filesize parameter
+     *
+     * @return int
+     */
+    private function getMaxFileSize()
+    {
+        return $this->getClient()->getServerParameter('upload_max_filesize');
     }
 }
