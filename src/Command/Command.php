@@ -77,7 +77,7 @@ class Command extends BaseCommand
     }
 
     /**
-     * @return \RemoteApi
+     * @return \RemoteApi|Eventum_RPC
      */
     protected function getClient()
     {
