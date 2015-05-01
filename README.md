@@ -21,3 +21,12 @@ $ eventum.phar --url=http://eventum.example.org wr
 Do you want to store credentials for http://eventum.example.org/rpc/xmlrpc.php ? [Yn] y
 Elan Ruusamäe Weekly Report 2015.04.27 - 2015.05.03
 ```
+
+
+## Commands ##
+
+Available commands:
+ - **add-attachment**   Add attachment to issue
+ - **open-issues**      List open issues
+ - **view-issue**       Display Issue details
+ - **weekly-report**, **wr** Show weekly reports
