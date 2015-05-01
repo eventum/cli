@@ -13,7 +13,7 @@ class WeeklyReportCommand extends Command
         $this
             ->setName('weekly-report')
             ->setAliases(array('wr'))
-            ->setDescription('List open issues')
+            ->setDescription('Show weekly reports')
             ->addArgument(
                 'start',
                 InputArgument::OPTIONAL,
