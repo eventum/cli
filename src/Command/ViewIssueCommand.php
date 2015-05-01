@@ -2,6 +2,7 @@
 
 namespace Eventum\Console\Command;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,28 +39,33 @@ EOT
         $details = $client->getIssueDetails($issue_id);
 
         if (!empty($details["quarantine"]["iqu_status"])) {
-            $output->write("        WARNING: Issue is currently quarantined!");
+            $output->write("<info>WARNING</info>: Issue is currently quarantined!");
             if (!empty($details["quarantine"]["iqu_expiration"])) {
                 $output->write(" Quarantine expires in " . $details["quarantine"]["time_till_expiration"]);
             }
             $output->writeln("");
         }
-        $output->writeln("        Issue #: $issue_id");
-        $output->writeln("        Summary: " . $details['iss_summary']);
-        $output->writeln("         Status: " . $details['sta_title']);
-        $output->writeln("     Assignment: " . $details['assignments']);
-        $output->writeln(" Auth. Repliers: " . implode(', ', $details['authorized_names']));
-        $output->writeln("       Reporter: " . $details['reporter']);
+
+        $table = new Table($output);
+        $table->addRow(array('Issue #', $issue_id));
+        $table->addRow(array('Summary', $details['iss_summary']));
+        $table->addRow(array('Status', $details['sta_title']));
+        $table->addRow(array('Assignment', $details['assignments']));
+        $table->addRow(array('Auth. Repliers', implode(', ', $details['authorized_names'])));
+        $table->addRow(array('Reporter', $details['reporter']));
 
         if (isset($details['customer'])) {
-            $output->writeln("       Customer: " . @$details['customer']['name']);
-            $output->writeln("  Support Level: " . @$details['contract']['support_level']);
-            $output->writeln("Support Options: " . @$details['contract']['options_display']);
-            $output->writeln("          Phone: " . $details['iss_contact_phone']);
-            $output->writeln("       Timezone: " . $details['iss_contact_timezone']);
-            $output->writeln("Account Manager: " . @$details['customer']['account_manager_name']);
+            $table->addRow(array('Customer', $details['customer']['name']));
+            $table->addRow(array('Support Level', $details['contract']['support_level']));
+            $table->addRow(array('Support Options', $details['contract']['options_display']));
+            $table->addRow(array('Phone', $details['iss_contact_phone']));
+            $table->addRow(array('Timezone', $details['iss_contact_timezone']));
+            $table->addRow(array('Account Manager', $details['customer']['account_manager_name']));
         }
-        $output->writeln("  Last Response: " . $details['iss_last_response_date']);
-        $output->writeln("   Last Updated: " . $details['iss_updated_date']);
+
+        $table->addRow(array('Last Response', $details['iss_last_response_date']));
+        $table->addRow(array('Last Updated', $details['iss_updated_date']));
+
+        $table->render();
     }
 } 
