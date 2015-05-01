@@ -11,6 +11,11 @@ use ArrayIterator;
 
 class DumpMethodsCommand extends Command
 {
+    /**
+     * @var \RemoteApi|Eventum_RPC
+     */
+    private $client;
+
     protected function configure()
     {
         $this
@@ -32,10 +37,11 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $client = $this->getClient();
-        foreach ($this->getMethods($client, $input) as $method) {
-            $help = $this->getMethodHelp($client, $method);
-            $signature = $this->getMethodSignature($client, $method);
+        $this->client = $this->getClient();
+
+        foreach ($this->getMethods($input) as $method) {
+            $help = $this->getMethodHelp($method);
+            $signature = $this->getMethodSignature($method);
             $output->writeln("");
             $output->writeln("    <comment>$help</comment>");
             $output->writeln("    function <info>$method</info>($signature)");
@@ -45,11 +51,10 @@ EOT
     /**
      * Get methods to display.
      *
-     * @param Eventum_RPC $client
      * @param InputInterface $input
      * @return array List of methods to inspect
      */
-    private function getMethods($client, $input)
+    private function getMethods($input)
     {
         $method = $input->getArgument('method');
         if ($method) {
@@ -57,7 +62,7 @@ EOT
         }
 
         // get sorted list of methods
-        $it = new ArrayIterator($client->__call('system.listMethods', array()));
+        $it = new ArrayIterator($this->client->__call('system.listMethods', array()));
         $it->asort();
 
         // exclude system methods
@@ -72,25 +77,23 @@ EOT
     /**
      * Get available documentation for $method.
      *
-     * @param Eventum_RPC $client
      * @param string $method
      * @return string
      */
-    private function getMethodHelp($client, $method)
+    private function getMethodHelp($method)
     {
-        return $client->__call('system.methodHelp', array($method));
+        return $this->client->__call('system.methodHelp', array($method));
     }
 
     /**
      * Get method parameter types.
      *
-     * @param Eventum_RPC $client
      * @param string $method
      * @return string
      */
-    private function getMethodSignature($client, $method)
+    private function getMethodSignature($method)
     {
-        $signature = $client->__call('system.methodSignature', array($method));
+        $signature = $this->client->__call('system.methodSignature', array($method));
         return join(', ', current($signature));
     }
 }
