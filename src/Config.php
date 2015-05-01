@@ -18,7 +18,7 @@ class Config
     {
         $this->config = static::$defaultConfig;
         $this->configFile = static::getHomeDir() . '/.eventum.json';
-        $this->load($this->configFile);
+        $this->load();
     }
 
     /**
@@ -55,14 +55,13 @@ class Config
         switch ($key) {
             case 'home':
                 return rtrim($this->config[$key], '/\\');
-
-            default:
-                if (!isset($this->config[$key])) {
-                    return null;
-                }
-
-                return $this->config[$key];
         }
+
+        if (!isset($this->config[$key])) {
+            return null;
+        }
+
+        return $this->config[$key];
     }
 
     /**
