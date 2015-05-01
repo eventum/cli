@@ -31,41 +31,35 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $issue_id = (int )$input->getArgument('issue');
-
         $client = $this->getClient();
 
         // FIXME: this used to do:
 //        $details = self::checkIssuePermissions($client, $auth, $issue_id);
         $details = $client->getIssueDetails($issue_id);
 
-        $msg = '';
         if (!empty($details["quarantine"]["iqu_status"])) {
-            $msg .= "        WARNING: Issue is currently quarantined!";
+            $output->write("        WARNING: Issue is currently quarantined!");
             if (!empty($details["quarantine"]["iqu_expiration"])) {
-                $msg .= " Quarantine expires in " . $details["quarantine"]["time_till_expiration"];
+                $output->write(" Quarantine expires in " . $details["quarantine"]["time_till_expiration"]);
             }
-            $msg .= "\n";
+            $output->writeln("");
         }
-        $msg .= "        Issue #: $issue_id
-        Summary: " . $details['iss_summary'] . "
-         Status: " . $details['sta_title'] . "
-     Assignment: " . $details['assignments'] . "
- Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
-       Reporter: " . $details['reporter'];
-        if (@isset($details['customer'])) {
-            $msg
-                .= "
-       Customer: " . @$details['customer']['name'] . "
-  Support Level: " . @$details['contract']['support_level'] . "
-Support Options: " . @$details['contract']['options_display'] . "
-          Phone: " . $details['iss_contact_phone'] . "
-       Timezone: " . $details['iss_contact_timezone'] . "
-Account Manager: " . @$details['customer']['account_manager_name'];
+        $output->writeln("        Issue #: $issue_id");
+        $output->writeln("        Summary: " . $details['iss_summary']);
+        $output->writeln("         Status: " . $details['sta_title']);
+        $output->writeln("     Assignment: " . $details['assignments']);
+        $output->writeln(" Auth. Repliers: " . implode(', ', $details['authorized_names']));
+        $output->writeln("       Reporter: " . $details['reporter']);
+
+        if (isset($details['customer'])) {
+            $output->writeln("       Customer: " . @$details['customer']['name']);
+            $output->writeln("  Support Level: " . @$details['contract']['support_level']);
+            $output->writeln("Support Options: " . @$details['contract']['options_display']);
+            $output->writeln("          Phone: " . $details['iss_contact_phone']);
+            $output->writeln("       Timezone: " . $details['iss_contact_timezone']);
+            $output->writeln("Account Manager: " . @$details['customer']['account_manager_name']);
         }
-        $msg
-            .= "
-  Last Response: " . $details['iss_last_response_date'] . "
-   Last Updated: " . $details['iss_updated_date'];
-        $output->writeln($msg);
+        $output->writeln("  Last Response: " . $details['iss_last_response_date']);
+        $output->writeln("   Last Updated: " . $details['iss_updated_date']);
     }
 } 
