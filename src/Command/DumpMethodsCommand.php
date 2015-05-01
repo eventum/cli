@@ -42,9 +42,11 @@ EOT
         foreach ($this->getMethods($input) as $method) {
             $help = $this->getMethodHelp($method);
             $signature = $this->getMethodSignature($method);
+            $return = array_shift($signature);
+            $arguments = join(', ', $signature);
             $output->writeln("");
             $output->writeln("    <comment>$help</comment>");
-            $output->writeln("    function <info>$method</info>($signature)");
+            $output->writeln("    function <info>$method</info>($arguments): $return");
         }
     }
 
@@ -94,14 +96,14 @@ EOT
     }
 
     /**
-     * Get method parameter types.
+     * Get method signature: return value and argument types.
      *
      * @param string $method
-     * @return string
+     * @return array
      */
     private function getMethodSignature($method)
     {
         $signature = $this->client->__call('system.methodSignature', array($method));
-        return join(', ', current($signature));
+        return current($signature);
     }
 }
