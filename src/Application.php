@@ -14,13 +14,13 @@ class Application extends BaseApplication
     {
         $definition = parent::getDefaultInputDefinition();
         $definition->addOption(
-            new InputOption('--url', null, InputOption::VALUE_REQUIRED, 'Specify location of Eventum')
+            new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Specify location of Eventum')
         );
         $definition->addOption(
-            new InputOption('--username', '-u', InputOption::VALUE_REQUIRED, 'If specified, use the given username.')
+            new InputOption('username', 'u', InputOption::VALUE_REQUIRED, 'If specified, use the given username.')
         );
         $definition->addOption(
-            new InputOption('--password', '-p', InputOption::VALUE_REQUIRED, 'If specified, use the given password.')
+            new InputOption('password', 'p', InputOption::VALUE_REQUIRED, 'If specified, use the given password.')
         );
 
         return $definition;
