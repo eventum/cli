@@ -6,12 +6,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IssueDetailsCommand extends Command
+class ViewIssueCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('issue')
+            ->setName('view-issue')
             ->setDescription('Display Issue details')
             ->addArgument(
                 'issue',

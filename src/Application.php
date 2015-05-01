@@ -34,7 +34,7 @@ class Application extends BaseApplication
         $commands = parent::getDefaultCommands();
 
         $commands[] = new Command\ListIssuesCommand();
-        $commands[] = new Command\IssueDetailsCommand();
+        $commands[] = new Command\ViewIssueCommand();
         $commands[] = new Command\WeeklyReportCommand();
         $commands[] = new Command\CreateIssueCommand();
         $commands[] = new Command\AddAttachmentCommand();
