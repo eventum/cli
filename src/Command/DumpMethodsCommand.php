@@ -57,19 +57,27 @@ EOT
     private function getMethods($input)
     {
         $method = $input->getArgument('method');
-        if ($method) {
-            return (array)$method;
-        }
 
         // get sorted list of methods
         $it = new ArrayIterator($this->client->__call('system.listMethods', array()));
         $it->asort();
 
-        // exclude system methods
-        $valid = function ($value) {
-            return substr($value, 0, 7) != 'system.';
+        $length = strlen($method);
+        $accept = function ($value) use ($method, $length) {
+            // exclude system methods
+            if (substr($value, 0, 7) == 'system.') {
+                return false;
+            }
+
+            // filter by name prefix
+            if ($length) {
+                return substr($value, 0, $length) == $method;
+            }
+
+            // accept anything else
+            return true;
         };
-        $filter = new CallbackFilterIterator($it, $valid);
+        $filter = new CallbackFilterIterator($it, $accept);
 
         return $filter;
     }
