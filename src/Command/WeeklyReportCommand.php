@@ -57,7 +57,9 @@ EOT
     {
         $start = (string)$input->getArgument('start');
         $end = (string)$input->getArgument('end');
-        $separate_closed = $input->getOption('separate-closed');
+        $options = array(
+            'separate_closed' => $input->getOption('separate-closed'),
+        );
 
         // take current week
         $start = new DateTime("Last Monday");
@@ -65,7 +67,7 @@ EOT
         // TODO: handle parameters and week option
 
         $prj_id = $this->getProjectId();
-        $data = $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $separate_closed);
+        $data = $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
 
         $group_name = $data['group_name'] ? "[{$data['group_name']}]" : "";
         $output->writeln(
