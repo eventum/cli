@@ -38,6 +38,7 @@ class Application extends BaseApplication
         $commands[] = new Command\WeeklyReportCommand();
         $commands[] = new Command\CreateIssueCommand();
         $commands[] = new Command\AddAttachmentCommand();
+        $commands[] = new Command\DumpMethodsCommand();
 
         return $commands;
     }
