@@ -26,6 +26,7 @@
 	"autoload": {
 		"psr-4" : {
 			"Eventum\\Console\\" : "src/"
-		}
+		},
+		"classmap": ["compat/"]
 	}
 }
