@@ -42,6 +42,7 @@ EOT
 
         $issue_id = (int )$input->getArgument('issue');
 
+        /** @var array $details */
         $details = $this->getClient()->getIssueDetails($issue_id);
 
         if (!empty($details["quarantine"]["iqu_status"])) {
@@ -52,8 +53,18 @@ EOT
             $output->writeln("");
         }
 
-        $table = new Table($output);
-        $table->setHeaders(array('Issue', "#$issue_id"));
+        $this->showIssueDetails($details);
+        $this->showCustomFields($details);
+        $this->showAttachments($issue_id);
+    }
+
+    /**
+     * @param array $details
+     */
+    private function showIssueDetails(array $details)
+    {
+        $table = new Table($this->output);
+        $table->setHeaders(array('Issue', "#{$details['iss_id']}"));
         $table->addRow(array('Summary', $details['iss_summary']));
         $table->addRow(array('Status', $details['sta_title']));
         $table->addRow(array('Assignment', $details['assignments']));
@@ -72,24 +83,21 @@ EOT
         $table->addRow(array('Last Response', $details['iss_last_response_date']));
         $table->addRow(array('Last Updated', $details['iss_updated_date']));
         $table->render();
-
-        $this->showCustomFields($details['custom_fields']);
-        $this->showAttachments($issue_id);
     }
 
     /**
-     * @param array $custom_fields
+     * @param array $details
      */
-    private function showCustomFields(array $custom_fields)
+    private function showCustomFields(array $details)
     {
-        if (!$custom_fields) {
+        if (!$details['custom_fields']) {
             return;
         }
 
         $table = new Table($this->output);
         $table->setHeaders(array("Custom field"));
 
-        foreach ($custom_fields as $custom_field) {
+        foreach ($details['custom_fields'] as $custom_field) {
             $table->addRow(array($custom_field["fld_title"], $custom_field["value"]));
         }
         $table->render();
