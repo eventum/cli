@@ -11,6 +11,11 @@ use Eventum_RPC_Exception;
 
 class ViewIssueCommand extends Command
 {
+    /**
+     * @var \RemoteApi|\Eventum_RPC
+     */
+    private $client;
+
     protected function configure()
     {
         $this
@@ -33,6 +38,8 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->client = $this->getClient();
+
         $issue_id = (int )$input->getArgument('issue');
 
         $details = $this->getClient()->getIssueDetails($issue_id);
@@ -46,7 +53,7 @@ EOT
         }
 
         $table = new Table($output);
-        $table->addRow(array('Issue #', $issue_id));
+        $table->setHeaders(array('Issue', "#$issue_id"));
         $table->addRow(array('Summary', $details['iss_summary']));
         $table->addRow(array('Status', $details['sta_title']));
         $table->addRow(array('Assignment', $details['assignments']));
@@ -66,19 +73,41 @@ EOT
         $table->addRow(array('Last Updated', $details['iss_updated_date']));
         $table->render();
 
-        $this->renderFilelist($output, $issue_id);
+        $this->showCustomFields($details['custom_fields']);
+        $this->showAttachments($issue_id);
     }
 
-    private function renderFilelist($output, $issue_id)
+    /**
+     * @param array $custom_fields
+     */
+    private function showCustomFields(array $custom_fields)
+    {
+        if (!$custom_fields) {
+            return;
+        }
+
+        $table = new Table($this->output);
+        $table->setHeaders(array("Custom field"));
+
+        foreach ($custom_fields as $custom_field) {
+            $table->addRow(array($custom_field["fld_title"], $custom_field["value"]));
+        }
+        $table->render();
+    }
+
+    /**
+     * @param int $issue_id
+     */
+    private function showAttachments($issue_id)
     {
         try {
-            $filelist = $this->getClient()->getFileList($issue_id);
+            $filelist = $this->client->getFileList($issue_id);
         } catch (Eventum_RPC_Exception $e) {
             // may throw "No files could be found"
             return;
         }
 
-        $table = new Table($output);
+        $table = new Table($this->output);
         $table->setHeaders(array("Attachments"));
 
         $i = 1;
