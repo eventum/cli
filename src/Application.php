@@ -39,6 +39,7 @@ class Application extends BaseApplication
         $commands[] = new Command\CreateIssueCommand();
         $commands[] = new Command\AddAttachmentCommand();
         $commands[] = new Command\DumpMethodsCommand();
+        $commands[] = new Command\ConfigCommand();
 
         return $commands;
     }
