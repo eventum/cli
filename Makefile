@@ -9,6 +9,9 @@ eventum.phar:
 	 $(composer) install --prefer-dist
 	 $(php) -d phar.readonly=0 $(box) build -v
 
+XMLRPC.md: Makefile
+	$(php) eventum.php --no-ansi dump > $@.tmp && mv $@.tmp $@
+
 clean:
 	rm -vf *.phar
 
