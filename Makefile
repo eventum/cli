@@ -29,9 +29,9 @@ box.phar:
 	curl -LSs https://box-project.github.io/box2/installer.php | php
 
 clean:
-	rm -vf *.phar
+	rm -vf eventum.phar
 
 distclean: clean
-	rm -rf composer.lock vendor
+	rm -rf composer.lock vendor *.phar
 
 .PHONY: deps
