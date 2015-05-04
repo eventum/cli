@@ -5,11 +5,13 @@ php := php
 all:
 	@echo 'Run "make eventum.phar" to build standalone eventum cli phar.'
 
-eventum.phar:
+composer.lock:
 	 $(composer) install --prefer-dist
+
+eventum.phar: composer.lock
 	 $(php) -d phar.readonly=0 $(box) build -v
 
-XMLRPC.md: Makefile
+XMLRPC.md: Makefile composer.lock
 	$(php) eventum.php --no-ansi dump > $@.tmp && mv $@.tmp $@
 
 clean:
