@@ -1,6 +1,10 @@
-composer := $(shell which composer.phar 2>/dev/null || which composer 2>/dev/null || echo false)
-box := $(shell which box.phar 2>/dev/null || which box 2>/dev/null || echo false)
-php := php
+define find_tool
+$(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
+endef
+
+composer := $(call find_tool, composer)
+box := $(call find_tool, box)
+php := $(call find_tool, php)
 
 all:
 	@echo 'Run "make eventum.phar" to build standalone eventum cli phar.'
@@ -14,8 +18,20 @@ eventum.phar: composer.lock
 XMLRPC.md: Makefile composer.lock
 	$(php) eventum.php --no-ansi dump > $@.tmp && mv $@.tmp $@
 
+deps:
+	$(box) --version || $(MAKE) box.phar
+	$(composer) --version || $(MAKE) composer.phar
+
+composer.phar:
+	curl -sS https://getcomposer.org/installer | php
+
+box.phar:
+	curl -LSs https://box-project.github.io/box2/installer.php | php
+
 clean:
 	rm -vf *.phar
 
 distclean: clean
 	rm -rf composer.lock vendor
+
+.PHONY: deps
