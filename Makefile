@@ -17,4 +17,5 @@ XMLRPC.md: Makefile composer.lock
 clean:
 	rm -vf *.phar
 
-.PHONY: eventum.phar
+distclean: clean
+	rm -rf composer.lock vendor
