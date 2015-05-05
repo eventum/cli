@@ -40,6 +40,7 @@ class Application extends BaseApplication
         $commands[] = new Command\AddAttachmentCommand();
         $commands[] = new Command\DumpMethodsCommand();
         $commands[] = new Command\ConfigCommand();
+        $commands[] = new Command\AddTimeEntryCommand();
 
         return $commands;
     }
