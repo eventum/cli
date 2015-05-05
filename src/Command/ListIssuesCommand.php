@@ -23,7 +23,7 @@ class ListIssuesCommand extends Command
             ->addOption(
                 'project',
                 null,
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Project Id'
             )
             ->addOption(
