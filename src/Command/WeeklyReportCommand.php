@@ -36,8 +36,7 @@ class WeeklyReportCommand extends Command
                 'separate-closed',
                 null,
                 InputOption::VALUE_NONE,
-                'Separate closed issues',
-                false
+                'Separate closed issues'
             )
             ->setHelp(
                 <<<EOT
