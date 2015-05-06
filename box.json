@@ -31,6 +31,7 @@
         "Herrera\\Box\\Compactor\\Php"
     ],
     "main": "eventum.php",
+    "git-version": "package_version",
     "output": "eventum.phar",
     "stub": true
 }
