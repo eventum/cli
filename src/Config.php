@@ -42,6 +42,7 @@ class Config
 
         $contents = json_encode($this->config, $options);
         file_put_contents($this->configFile, $contents);
+        chmod($this->configFile, 0600);
     }
 
     /**
