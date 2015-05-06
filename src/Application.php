@@ -41,6 +41,7 @@ class Application extends BaseApplication
         $commands[] = new Command\DumpMethodsCommand();
         $commands[] = new Command\ConfigCommand();
         $commands[] = new Command\AddTimeEntryCommand();
+	    $commands[] = new Command\SelfUpdateCommand();
 
         return $commands;
     }
