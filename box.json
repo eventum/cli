@@ -24,6 +24,9 @@
             "name": [
                 "*.php"
             ],
+            "exclude": [
+                "Tests", "Tester", "*Tester.php"
+            ],
             "in": "vendor"
         }
     ],
