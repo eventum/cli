@@ -28,6 +28,12 @@
                 "Tests", "Tester", "*Tester.php"
             ],
             "in": "vendor"
+        },
+        {
+            "name": [
+                "schema.json"
+            ],
+            "in": "vendor/herrera-io/phar-update/res"
         }
     ],
     "compactors": [
