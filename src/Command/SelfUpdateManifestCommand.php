@@ -21,7 +21,7 @@ use stdClass;
 
 class SelfUpdateManifestCommand extends Command
 {
-    const DIST_URL = 'https://github.com/eventum/cli/raw/dist/eventum.phar';
+    const DIST_URL = 'https://raw.githubusercontent.com/eventum/cli/dist/eventum.phar';
 
     protected function configure()
     {
