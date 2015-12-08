@@ -16,6 +16,7 @@ Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
 $finder = Symfony\CS\Finder\DefaultFinder::create()
 	->in(__DIR__)
 	->exclude('vendor')
+	->exclude('build')
 ;
 
 # Levels are incremental:
