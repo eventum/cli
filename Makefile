@@ -12,7 +12,7 @@ all:
 composer.lock:
 	 $(composer) install --prefer-dist
 
-eventum.phar: composer.lock
+eventum.phar: composer.lock box.json
 	 $(php) -d phar.readonly=0 $(box) build -v
 
 XMLRPC.md: Makefile composer.lock
