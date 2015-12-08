@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SelfUpdateCommand extends Command
 {
-    const MANIFEST_FILE = 'http://eventum.github.io/cli/manifest.json';
+    const MANIFEST_FILE = 'https://raw.githubusercontent.com/eventum/cli/dist/manifest.json';
 
     protected function configure()
     {
