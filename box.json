@@ -12,6 +12,9 @@
             "name": [
                 "*.php"
             ],
+            "exclude": [
+                "SelfUpdateManifestCommand.php"
+            ],
             "in": "src"
         },
         {
