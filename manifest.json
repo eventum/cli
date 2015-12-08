@@ -1,7 +1,7 @@
 [
     {
         "name": "eventum.phar",
-        "sha1": "df09da24b16a9495cb2c8f3b4e1d354e1a19a2d1",
+        "sha1": "82bab366bb58d76c7881f95392dc2ed679587c27",
         "url": "https://github.com/eventum/cli/raw/dist/eventum.phar",
         "version": "1.0.0"
     }
