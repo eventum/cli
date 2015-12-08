@@ -54,6 +54,10 @@ class Application extends BaseApplication
         $commands[] = new Command\AddTimeEntryCommand();
         $commands[] = new Command\SelfUpdateCommand();
 
+        if (class_exists('Eventum\Console\Command\SelfUpdateManifestCommand')) {
+            $commands[] = new Command\SelfUpdateManifestCommand();
+        }
+
         return $commands;
     }
 }
