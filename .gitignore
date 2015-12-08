@@ -2,6 +2,7 @@
 /vendor/
 /eventum.phar
 /XMLRPC.md
+/.php_cs.cache
 
 # vim
 [._]*.s[a-w][a-z]
