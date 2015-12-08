@@ -14,6 +14,7 @@
 namespace Eventum\Console;
 
 use RuntimeException;
+use XdgBaseDir\Xdg;
 
 class Config
 {
@@ -29,7 +30,7 @@ class Config
     public function __construct()
     {
         $this->config = static::$defaultConfig;
-        $this->configFile = static::getHomeDir() . '/.eventum.json';
+        $this->configFile = static::getHomeConfigDir() . '/eventum.json';
         $this->load();
     }
 
@@ -98,24 +99,16 @@ class Config
      * @return string
      * @throws RuntimeException
      */
-    public static function getHomeDir()
+    public static function getHomeConfigDir()
     {
-        if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
-            if (!getenv('APPDATA')) {
-                throw new RuntimeException(
-                    'The APPDATA environment variable must be set for composer to run correctly'
-                );
-            }
-            $home = strtr(getenv('APPDATA'), '\\', '/');
-        } else {
-            if (!getenv('HOME')) {
-                throw new RuntimeException(
-                    'The HOME environment variable must be set for composer to run correctly'
-                );
-            }
-            $home = rtrim(getenv('HOME'), '/');
-        }
+        $xdg = new Xdg();
+        $dir = $xdg->getHomeConfigDir();
 
-        return $home;
+        if (!is_dir($dir)) {
+            throw new RuntimeException(
+                sprintf('The "%s" directory must exist run correctly', $dir)
+            );
+        }
+        return $dir;
     }
 }
