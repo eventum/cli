@@ -15,7 +15,7 @@ Download phar and start using it:
 
 ## Developing ##
 
-If you would like to development code instead of pre-built PHAR file.
+If you would like to use development code instead of pre-built PHAR file.
 
 1. clone this repository
 2. [get composer](https://getcomposer.org/download/)
