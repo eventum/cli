@@ -39,9 +39,18 @@ class Config
      */
     public function load()
     {
-        if (file_exists($this->configFile)) {
-            $this->config = json_decode(file_get_contents($this->configFile), true);
+        if (!file_exists($this->configFile)) {
+            return;
         }
+
+        // refuse to read the file with bad permissions
+        if (fileperms($this->configFile) & 0077) {
+            throw new RuntimeException(
+                sprintf('The "%s" file should not be accessible for other users', $this->configFile)
+            );
+        }
+
+        $this->config = json_decode(file_get_contents($this->configFile), true);
     }
 
     /**
