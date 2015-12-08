@@ -1,6 +1,6 @@
 <?php
-
 namespace Eventum\Console;
+
 use RuntimeException;
 
 class Config
@@ -24,7 +24,8 @@ class Config
     /**
      * Load optional config in JSON format
      */
-    public function load() {
+    public function load()
+    {
         if (file_exists($this->configFile)) {
             $this->config = json_decode(file_get_contents($this->configFile), true);
         }

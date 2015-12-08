@@ -1,12 +1,11 @@
 <?php
-
 namespace Eventum\Console\Command;
 
+use Eventum_RPC_Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Eventum_RPC_Exception;
 
 class AddAttachmentCommand extends Command
 {
@@ -75,7 +74,7 @@ EOT
         try {
             $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
         } catch (Eventum_RPC_Exception $e) {
-            if ($e->getMessage() == "XML error: Invalid document end at line 1") {
+            if ($e->getMessage() == 'XML error: Invalid document end at line 1') {
                 $this->checkFilesize(strlen($contents));
             }
             throw $e;
@@ -86,9 +85,9 @@ EOT
         $issue_url = "{$baseurl}/view.php?id=$issue_id";
 
         if ($internal_only) {
-            $status = "<fg=red>internal</fg=red>";
+            $status = '<fg=red>internal</fg=red>';
         } else {
-            $status = "<fg=yellow>public</fg=yellow>";
+            $status = '<fg=yellow>public</fg=yellow>';
         }
         $filesize = $this->util->formatMemory(strlen($contents), 2);
         $output->writeln("Uploaded '$filename' ($filesize) to issue $issue_url");

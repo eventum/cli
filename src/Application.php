@@ -1,5 +1,4 @@
 <?php
-
 namespace Eventum\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
@@ -41,8 +40,8 @@ class Application extends BaseApplication
         $commands[] = new Command\DumpMethodsCommand();
         $commands[] = new Command\ConfigCommand();
         $commands[] = new Command\AddTimeEntryCommand();
-	    $commands[] = new Command\SelfUpdateCommand();
+        $commands[] = new Command\SelfUpdateCommand();
 
         return $commands;
     }
-} 
+}

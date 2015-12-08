@@ -1,5 +1,4 @@
 <?php
-
 namespace Eventum\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -38,8 +37,7 @@ class ListIssuesCommand extends Command
 List all issues that are not set to a status with a 'closed' context. Use
 optional argument <info>--my</info> if you just wish to see issues assigned to you.
 EOT
-        )
-        ;
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -53,7 +51,7 @@ EOT
         if ($status) {
             $output->writeln("The following issues are set to status '<comment>$status</comment>':");
         } else {
-            $output->writeln("The following issues are still open:");
+            $output->writeln('The following issues are still open:');
         }
 
         foreach ($issues as $issue) {
@@ -61,7 +59,7 @@ EOT
             if (!empty($issue['assigned_users'])) {
                 $output->writeln(" - ({$issue['assigned_users']})");
             } else {
-                $output->writeln(" - (unassigned)");
+                $output->writeln(' - (unassigned)');
             }
         }
     }

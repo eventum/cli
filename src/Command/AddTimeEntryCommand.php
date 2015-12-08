@@ -1,12 +1,11 @@
 <?php
-
 namespace Eventum\Console\Command;
 
+use Eventum_RPC;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Eventum_RPC;
 
 class AddTimeEntryCommand extends Command
 {
@@ -83,6 +82,7 @@ EOT
 
         $category = $this->io->askChoices('Time Category:', $categories, 'Category-Id %s is invalid.');
         $category_id = array_search($category, $categories);
+
         return (int)$category_id;
     }
 }

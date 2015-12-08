@@ -1,5 +1,4 @@
 <?php
-
 namespace Eventum\Console;
 
 class AuthHelper
@@ -59,4 +58,4 @@ class AuthHelper
             }
         }
     }
-} 
+}

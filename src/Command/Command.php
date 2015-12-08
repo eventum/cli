@@ -1,17 +1,16 @@
 <?php
-
 namespace Eventum\Console\Command;
 
 use Eventum\Console\AuthHelper;
 use Eventum\Console\Config;
-use Eventum\Console\Util;
 use Eventum\Console\IO;
+use Eventum\Console\Util;
+use Eventum_RPC;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use InvalidArgumentException;
-use RuntimeException;
-use Eventum_RPC;
 
 class Command extends BaseCommand
 {
@@ -132,10 +131,10 @@ class Command extends BaseCommand
             } catch (\Eventum_RPC_Exception $e) {
                 $this->output->writeln("<error>ERROR: {$e->getMessage()}</error>");
             }
-            $this->output->writeln("");
+            $this->output->writeln('');
         }
 
-        throw new \RuntimeException("Unable to authenticate");
+        throw new \RuntimeException('Unable to authenticate');
     }
 
     /**
@@ -217,12 +216,13 @@ class Command extends BaseCommand
 
         $res = $this->getClient()->getUserAssignedProjects(false);
         if (!$res) {
-            throw new InvalidArgumentException("User has no projects");
+            throw new InvalidArgumentException('User has no projects');
         }
 
         // if user has only one project. return that
         if (count($res) == 1) {
             $project = current($res);
+
             return (int)$project['id'];
         }
 
@@ -234,6 +234,7 @@ class Command extends BaseCommand
 
         $project = $this->io->askChoices('Project:', $projects, 'Project %s is invalid.');
         $project_id = array_search($project, $projects);
+
         return (int)$project_id;
     }
-} 
+}

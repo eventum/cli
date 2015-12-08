@@ -1,5 +1,4 @@
 <?php
-
 namespace Eventum\Console;
 
 /**
@@ -84,10 +83,8 @@ class Util
             if ($fileInfoDb) {
                 $mime_type = finfo_file($fileInfoDb, $file);
             }
-
         } elseif (function_exists('mime_content_type')) {
             $mime_type = mime_content_type($file);
-
         } else {
             // fall back to getimagesize(). works for images at least
             $meta = getimagesize($file);

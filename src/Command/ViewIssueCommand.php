@@ -1,13 +1,12 @@
 <?php
-
 namespace Eventum\Console\Command;
 
+use Eventum_RPC_Exception;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Eventum_RPC_Exception;
 
 class ViewIssueCommand extends Command
 {
@@ -45,12 +44,12 @@ EOT
         /** @var array $details */
         $details = $this->getClient()->getIssueDetails($issue_id);
 
-        if (!empty($details["quarantine"]["iqu_status"])) {
-            $output->write("<info>WARNING</info>: Issue is currently quarantined!");
-            if (!empty($details["quarantine"]["iqu_expiration"])) {
-                $output->write(" Quarantine expires in " . $details["quarantine"]["time_till_expiration"]);
+        if (!empty($details['quarantine']['iqu_status'])) {
+            $output->write('<info>WARNING</info>: Issue is currently quarantined!');
+            if (!empty($details['quarantine']['iqu_expiration'])) {
+                $output->write(' Quarantine expires in ' . $details['quarantine']['time_till_expiration']);
             }
-            $output->writeln("");
+            $output->writeln('');
         }
 
         $this->showIssueDetails($details);
@@ -95,10 +94,10 @@ EOT
         }
 
         $table = new Table($this->output);
-        $table->setHeaders(array("Custom field"));
+        $table->setHeaders(array('Custom field'));
 
         foreach ($details['custom_fields'] as $custom_field) {
-            $table->addRow(array($custom_field["fld_title"], $custom_field["value"]));
+            $table->addRow(array($custom_field['fld_title'], $custom_field['value']));
         }
         $table->render();
     }
@@ -116,7 +115,7 @@ EOT
         }
 
         $table = new Table($this->output);
-        $table->setHeaders(array("Attachments"));
+        $table->setHeaders(array('Attachments'));
 
         $i = 1;
         foreach ($filelist as $attachment) {

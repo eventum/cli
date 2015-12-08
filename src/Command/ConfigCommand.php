@@ -1,5 +1,4 @@
 <?php
-
 namespace Eventum\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,15 +26,15 @@ To get a list of configuration values in the file:
     <comment>%command.full_name% --list</comment>
 
 EOT
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // List the configuration of the file settings
         if ($input->getOption('list')) {
-            $output->writeln("Listing configuration options");
+            $output->writeln('Listing configuration options');
+
             return;
         }
     }

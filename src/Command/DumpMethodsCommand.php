@@ -1,13 +1,12 @@
 <?php
-
 namespace Eventum\Console\Command;
 
+use ArrayIterator;
+use CallbackFilterIterator;
+use Eventum_RPC;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Eventum_RPC;
-use CallbackFilterIterator;
-use ArrayIterator;
 
 class DumpMethodsCommand extends Command
 {
@@ -43,8 +42,8 @@ EOT
             $help = $this->getMethodHelp($method);
             $signature = $this->getMethodSignature($method);
             $return = array_shift($signature);
-            $arguments = join(', ', $signature);
-            $output->writeln("");
+            $arguments = implode(', ', $signature);
+            $output->writeln('');
             $output->writeln("    <comment>$help</comment>");
             $output->writeln("    function <info>$method</info>($arguments): $return");
         }
@@ -104,6 +103,7 @@ EOT
     private function getMethodSignature($method)
     {
         $signature = $this->client->__call('system.methodSignature', array($method));
+
         return current($signature);
     }
 }
