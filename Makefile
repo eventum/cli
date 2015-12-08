@@ -31,7 +31,17 @@ box.phar:
 clean:
 	rm -vf eventum.phar
 
+dist: dist/.git
+	rm -rf dist/build
+	git clone . dist/build
+	$(MAKE) -C dist/build eventum.phar
+	mv dist/build/eventum.phar dist
+	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
+
+dist/.git:
+	git clone git@github.com:eventum/cli.git dist -b dist --depth=1
+
 distclean: clean
 	rm -rf composer.lock vendor *.phar
 
-.PHONY: deps
+.PHONY: deps dist
