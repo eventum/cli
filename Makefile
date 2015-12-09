@@ -2,15 +2,16 @@ define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
 endef
 
-composer := $(call find_tool, composer)
 box := $(call find_tool, box)
 php := $(call find_tool, php)
+composer := $(call find_tool, composer)
+composer_options :=
 
 all:
 	@echo 'Run "make eventum.phar" to build standalone eventum cli phar.'
 
 composer.lock:
-	 $(composer) install --prefer-dist
+	 $(composer) install --prefer-dist $(composer_options)
 
 eventum.phar: composer.lock box.json
 	 $(php) -d phar.readonly=0 $(box) build -v
@@ -34,7 +35,7 @@ clean:
 dist: dist/.git
 	rm -rf dist/build
 	git clone . dist/build
-	$(MAKE) -C dist/build eventum.phar
+	$(MAKE) -C dist/build eventum.phar composer_options=--no-dev
 	mv dist/build/eventum.phar dist
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
 
