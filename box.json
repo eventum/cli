@@ -21,12 +21,6 @@
             "name": [
                 "*.php"
             ],
-            "in": "compat"
-        },
-        {
-            "name": [
-                "*.php"
-            ],
             "exclude": [
                 "tests", "Tests", "Tester", "*Tester.php"
             ],
