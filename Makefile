@@ -3,7 +3,11 @@ $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo 
 endef
 
 box := $(call find_tool, box)
+ifeq ($(PHP),)
 php := $(call find_tool, php)
+else
+php := $(PHP)
+endif
 composer := $(call find_tool, composer)
 composer_options :=
 
