@@ -3,6 +3,8 @@
 /eventum.phar
 /XMLRPC.md
 /.php_cs.cache
+/composer.lock
+/dist/
 
 # vim
 [._]*.s[a-w][a-z]
