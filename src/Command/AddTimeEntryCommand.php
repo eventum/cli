@@ -13,6 +13,7 @@
 
 namespace Eventum\Console\Command;
 
+use Eventum\RPC\RemoteApi;
 use Eventum_RPC;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AddTimeEntryCommand extends Command
 {
     /**
-     * @var \RemoteApi|Eventum_RPC
+     * @var RemoteApi|Eventum_RPC
      */
     private $client;
 
