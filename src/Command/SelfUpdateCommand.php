@@ -15,6 +15,7 @@ namespace Eventum\Console\Command;
 
 use Herrera\Phar\Update\Manager;
 use Herrera\Phar\Update\Manifest;
+use KevinGH\Version\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,6 +33,14 @@ class SelfUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
-        $manager->update($this->getApplication()->getVersion(), true, true);
+        $version = Version::create($this->getApplication()->getVersion());
+
+        $update = $manager->getManifest()->findRecent($version, true, true);
+        if ($update) {
+            $output->writeln("<info>Updating to version {$update->getVersion()}.</info>");
+            $manager->update($version, true, true);
+        } else {
+            $output->writeln("<info>You are already using composer version {$version}.</info>");
+        }
     }
 }
