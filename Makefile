@@ -39,7 +39,7 @@ clean:
 dist: dist/.git
 	rm -rf dist/build
 	git clone . dist/build
-	$(MAKE) -C dist/build eventum.phar composer_options=--no-dev
+	$(MAKE) -C dist/build eventum.phar composer_options="--no-dev --classmap-authoritative"
 	mv dist/build/eventum.phar dist
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
 
