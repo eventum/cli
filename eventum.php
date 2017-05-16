@@ -16,5 +16,5 @@ use Eventum\Console\Application;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$application = new Application('Eventum CLI', '1.0.0-@package_version@');
+$application = new Application('Eventum CLI', '0.0.1-@package_version@');
 $application->run();
