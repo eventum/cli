@@ -15,4 +15,4 @@ Available commands:
 - `view-issue`        Display Issue details
 - `weekly-report`     Show weekly reports
 
-[0.0.1]: https://github.com/eventum/rpc/commits/0.0.1
+[0.0.1]: https://github.com/eventum/cli/commits/0.0.1
