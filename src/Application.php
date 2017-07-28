@@ -52,6 +52,7 @@ class Application extends BaseApplication
         $commands[] = new Command\DumpMethodsCommand();
         $commands[] = new Command\ConfigCommand();
         $commands[] = new Command\AddTimeEntryCommand();
+        $commands[] = new Command\SetIssueStatusCommand();
 
         if ('phar:' === substr(__FILE__, 0, 5)) {
             $commands[] = new Command\SelfUpdateCommand();
