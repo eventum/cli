@@ -30,11 +30,10 @@ You need to specify `--url` for the first time, url and optionally login credent
 $ eventum.phar --url=http://eventum.example.org wr
     Authentication required (http://eventum.example.org/rpc/xmlrpc.php):
       Username: glen
-      Password: 
+      Password:
 Do you want to store credentials for http://eventum.example.org/rpc/xmlrpc.php ? [Yn] y
 Elan Ruusamäe Weekly Report 2015.04.27 - 2015.05.03
 ```
-
 
 ## Commands ##
 
@@ -43,3 +42,4 @@ Available commands:
  - **open-issues**      List open issues
  - **view-issue**       Display Issue details
  - **weekly-report**, **wr** Show weekly reports
+ - **set-status**, **ss**    Set Issue status
