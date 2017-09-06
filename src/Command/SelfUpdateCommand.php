@@ -26,10 +26,6 @@ class SelfUpdateCommand extends Amend\Command
         $this->getHelperSet()->set(new Amend\Helper());
         $this->setManifestUri(self::MANIFEST_FILE);
 
-        $this
-            ->setName('self-update')
-            ->setDescription('Updates eventum.phar to the latest version');
-
         parent::execute($input, $output);
     }
 }
