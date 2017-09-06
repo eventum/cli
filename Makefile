@@ -2,6 +2,12 @@ define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
 endef
 
+define fetch_tool
+curl -sSLf $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+endef
+
+PHPCS_FIXER_VERSION := 2.3.1
+
 box := $(call find_tool, box)
 ifeq ($(PHP),)
 php := $(call find_tool, php)
@@ -32,6 +38,9 @@ composer.phar:
 
 box.phar:
 	curl -LSs https://box-project.github.io/box2/installer.php | php
+
+php-cs-fixer.phar:
+	$(call fetch_tool,https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v$(PHPCS_FIXER_VERSION)/php-cs-fixer.phar)
 
 clean:
 	rm -vf eventum.phar

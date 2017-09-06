@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the LICENSE and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 $header = <<<EOF
 This file is part of the Eventum (Issue Tracking System) package.
 
@@ -11,24 +22,104 @@ please see the LICENSE and AUTHORS files
 that were distributed with this source code.
 EOF;
 
-Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
+$config = PhpCsFixer\Config::create();
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
-	->in(__DIR__)
-	->exclude('vendor')
-	->exclude('build')
-;
+# use git for defining input files
+# https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2214
+$files = explode("\n", shell_exec('git ls-files'));
+$finder = $config->getFinder()
+    ->in(__DIR__)
+    ->ignoreDotFiles(false)
+    ->name('.php_cs')
+    // this filter would accept only files that are present in Git
+    ->filter(function (\SplFileInfo $file) use (&$files) {
+        $key = array_search($file->getRelativePathname(), $files);
+        if ($key) {
+            error_log('ACCEPT: ' . $file->getRelativePathname());
+        } else {
+            error_log('REJECT: ' . $file->getRelativePathname());
+        }
 
-# Levels are incremental:
-# none->psr0->psr1->psr2->symfony
-# We'll stick to PSR-2
-# Symfony is nice, but some conflict with IDE formatting
-# https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/1.12/Symfony/CS/FixerInterface.php#L19-L24
-return Symfony\CS\Config\Config::create()
-	->setUsingCache(true)
-	->level(Symfony\CS\FixerInterface::PSR2_LEVEL)
-	->fixers(array(
-		'header_comment',
-	))
-	->finder($finder)
-;
+        return $key;
+    });
+
+$risky_rules = array(
+    'ereg_to_preg' => true,
+    'no_alias_functions' => true,
+    'no_php4_constructor' => true,
+);
+
+$symfony_rules = array(
+    'blank_line_after_opening_tag' => false,
+    'blank_line_before_return' => true,
+    'cast_spaces' => false,
+    'concat_space' => array('spacing' => 'one'),
+    'include' => true,
+    'new_with_braces' => true,
+    'no_blank_lines_after_class_opening' => true,
+    'no_blank_lines_after_phpdoc' => false,
+    'no_empty_statement' => true,
+    'no_extra_consecutive_blank_lines' => true,
+    'no_leading_import_slash' => true,
+    'no_leading_namespace_whitespace' => true,
+    'no_mixed_echo_print' => array('use' => 'echo'),
+    'no_multiline_whitespace_around_double_arrow' => true,
+    'no_singleline_whitespace_before_semicolons' => true,
+    'no_trailing_comma_in_list_call' => true,
+    'no_trailing_comma_in_singleline_array' => true,
+    'no_unused_imports' => true,
+    'no_whitespace_before_comma_in_array' => true,
+    'no_whitespace_in_blank_line' => true,
+    'object_operator_without_whitespace' => true,
+    'phpdoc_align' => false,
+    'phpdoc_annotation_without_dot' => true,
+    'phpdoc_indent' => true,
+    'phpdoc_inline_tag' => true,
+    'phpdoc_no_access' => false, // RemoteApi relies on these tags
+    'phpdoc_no_alias_tag' => array('type' => 'var', 'link' => 'see'),
+    'phpdoc_no_empty_return' => true,
+    'phpdoc_no_package' => true,
+    'phpdoc_scalar' => true,
+    'phpdoc_separation' => false,
+    'phpdoc_single_line_var_spacing' => true,
+    'phpdoc_summary' => false,
+    'phpdoc_to_comment' => false,
+    'phpdoc_trim' => true,
+    'self_accessor' => true,
+    'single_quote' => true,
+    'standardize_not_equals' => true,
+    'ternary_operator_spaces' => true,
+    'trailing_comma_in_multiline_array' => true,
+    'trim_array_spaces' => true,
+    'whitespace_after_comma_in_array' => true,
+);
+
+# Try to use StyleCI "recommended" preset:
+# https://styleci.readme.io/v1.0/docs/presets#recommended
+$rules = $risky_rules + $symfony_rules + array(
+    '@PSR2' => true,
+    'array_syntax' => array('syntax' => 'long'),
+    'binary_operator_spaces' => array('align_double_arrow' => false),
+    'braces' => array('allow_single_line_closure' => false),
+    'function_declaration' => array('closure_function_spacing' => 'one'),
+    'header_comment' => array('header' => $header),
+    'linebreak_after_opening_tag' => false,
+    'method_argument_space' => array('keep_multiple_spaces_after_comma' => false),
+    'no_multiline_whitespace_before_semicolons' => true,
+    'no_short_echo_tag' => true,
+    'no_useless_else' => true,
+    'no_useless_return' => true,
+    'ordered_imports' => true,
+    'phpdoc_order' => true,
+    'semicolon_after_instruction' => true,
+    'simplified_null_return' => false,
+    'single_blank_line_before_namespace' => true,
+    'strict_comparison' => false,
+);
+
+return $config
+    ->setRiskyAllowed(true)
+    ->setCacheFile('vendor/php_cs.cache')
+    ->setRules($rules);
+
+# vim:ft=php
