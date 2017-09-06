@@ -53,7 +53,7 @@ dist: dist/.git
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
 
 dist/.git:
-	git clone git@github.com:eventum/cli.git dist -b dist --depth=1
+	git clone git@github.com:eventum/cli.git dist -b gh-pages --depth=1
 
 distclean: clean
 	rm -rf composer.lock vendor *.phar
