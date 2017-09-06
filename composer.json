@@ -22,8 +22,8 @@
 		"bit3/php-callback-filter-iterator-polyfill": "~1.2",
 		"dnoegel/php-xdg-base-dir": "~0.1",
 		"eventum/rpc": "~4.0.0",
-		"herrera-io/phar-update": "1.*",
-		"php": ">=5.3.4",
+		"kherge/amend": "3.*",
+		"php": "^5.3.4 || ^7.0",
 		"symfony/console": "~2.5.7"
 	},
 	"autoload": {

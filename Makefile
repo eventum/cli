@@ -50,10 +50,12 @@ dist: dist/.git
 	git clone . dist/build
 	$(MAKE) -C dist/build eventum.phar composer_options="--no-dev --classmap-authoritative"
 	mv dist/build/eventum.phar dist
+
+manifest: dist
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
 
 dist/.git:
-	git clone git@github.com:eventum/cli.git dist -b dist --depth=1
+	git clone git@github.com:eventum/cli.git dist -b gh-pages --depth=1
 
 distclean: clean
 	rm -rf composer.lock vendor *.phar

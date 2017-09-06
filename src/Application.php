@@ -28,10 +28,10 @@ class Application extends BaseApplication
             new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Specify location of Eventum')
         );
         $definition->addOption(
-            new InputOption('username', 'u', InputOption::VALUE_REQUIRED, 'If specified, use the given username.')
+            new InputOption('username', null, InputOption::VALUE_REQUIRED, 'If specified, use the given username.')
         );
         $definition->addOption(
-            new InputOption('password', 'p', InputOption::VALUE_REQUIRED, 'If specified, use the given password.')
+            new InputOption('password', null, InputOption::VALUE_REQUIRED, 'If specified, use the given password.')
         );
 
         return $definition;
@@ -55,7 +55,7 @@ class Application extends BaseApplication
         $commands[] = new Command\SetIssueStatusCommand();
 
         if ('phar:' === substr(__FILE__, 0, 5)) {
-            $commands[] = new Command\SelfUpdateCommand();
+            $commands[] = new Command\SelfUpdateCommand('self-update');
         }
 
         if (class_exists('Eventum\Console\Command\SelfUpdateManifestCommand')) {
