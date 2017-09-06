@@ -6,7 +6,7 @@ define fetch_tool
 curl -sSLf $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 endef
 
-PHPCS_FIXER_VERSION := 2.3.1
+PHPCS_FIXER_VERSION := 2.5.0
 
 box := $(call find_tool, box)
 ifeq ($(PHP),)
