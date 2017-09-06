@@ -107,16 +107,15 @@ EOT
      */
     private function getStatus()
     {
-        $status = $this->input->getOption('status');
-        if ($status) {
-            return $status;
-        }
+        $default = $this->input->getOption('status');
 
         $list = $this->getClient()->getClosedAbbreviationAssocList($this->getProjectId());
         $prompt = 'Which status do you want to use in this action?';
         $errorMessage = "Entered status doesn't match any in the list available to you";
 
-        return $this->askChoices($prompt, $list, $errorMessage);
+        $answer = $this->askChoices($prompt, $list, $errorMessage, $default);
+
+        return $list[$answer];
     }
 
     /**
@@ -172,7 +171,7 @@ EOT
     /**
      * ask choices, but return the key not value from the list.
      */
-    private function askChoices($prompt, $list, $errorMessage)
+    private function askChoices($prompt, $list, $errorMessage, $default = null)
     {
         // avoid asking if answer is known
         switch (count($list)) {
@@ -182,7 +181,11 @@ EOT
                 return key($list);
         }
 
-        $answer = $this->io->askChoices($prompt, $list, $errorMessage);
+        if ($default) {
+            $prompt .= " ($default)";
+        }
+
+        $answer = $this->io->askChoices($prompt, $list, $errorMessage, $default);
 
         return array_search($answer, $list);
     }
