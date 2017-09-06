@@ -4,6 +4,12 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.2] - 2017-09-06
+
+- add `set-status` command, #3
+
+[0.0.2]: https://github.com/eventum/cli/compare/0.0.1...0.0.2
+
 ## [0.0.1] - 2017-05-16
 
 Initial version tagged (alpha-release)
