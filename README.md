@@ -6,7 +6,7 @@ This is new Eventum CLI Application.
 
 Download phar and start using it:
 
-1. download phar: https://github.com/eventum/cli/blob/dist/eventum.phar
+1. download `eventum.phar` from [releases page](https://github.com/eventum/cli/releases/latest)
 2. start using it: `php eventum.phar`
 
 ## Updating ##
