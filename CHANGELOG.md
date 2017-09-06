@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ## [0.0.3]
 
 - implement date arguments for weekly-report #5
+- add `close` command to close issues, #4
 
 [0.0.3]: https://github.com/eventum/cli/compare/0.0.2...master
 

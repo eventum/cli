@@ -42,6 +42,7 @@ Available commands:
 | Command | |
 | ------------- | ------------- |
 | **add-attachment** | Add attachment to issue  |
+| **close** | Marks an issue as closed |
 | **open-issues** | List open issues |
 | **set-status**, **ss** | Set Issue status |
 | **view-issue** | Display Issue details |
