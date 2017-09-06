@@ -173,6 +173,11 @@ EOT
      */
     private function askChoices($prompt, $list, $errorMessage, $default = null)
     {
+        // default given and present in $list, use that
+        if ($default && isset($list[$default])) {
+            return $default;
+        }
+
         // avoid asking if answer is known
         switch (count($list)) {
             case 0:
