@@ -22,7 +22,7 @@ class AuthHelper
      *
      * @param string $url The unique name of repository
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAuthentication($url)
     {
@@ -59,7 +59,7 @@ class AuthHelper
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function loadConfiguration(Config $config)
     {

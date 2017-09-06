@@ -44,7 +44,7 @@ class IO
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function ask($question, $default = null)
     {
@@ -56,7 +56,7 @@ class IO
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function askHidden($question, $default = null)
     {
@@ -70,7 +70,7 @@ class IO
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function askChoices($question, $choices, $errorMessage, $default = null)
     {
@@ -83,7 +83,7 @@ class IO
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function askConfirmation($question, $default = true)
     {
@@ -91,7 +91,7 @@ class IO
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function askAndValidate($question, $validator, $attempts = false, $default = null)
     {

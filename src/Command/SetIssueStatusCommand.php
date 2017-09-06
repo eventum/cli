@@ -54,10 +54,11 @@ EOT
         if ($result == 'OK') {
             $message = "Status changed to '<info>$new_status</info>' on issue #$issue_id";
             $output->writeln($message);
+
             return 0;
-        } else {
-            $output->writeln("<error>$result</error>");
-            return 1;
         }
+        $output->writeln("<error>$result</error>");
+
+        return 1;
     }
 }

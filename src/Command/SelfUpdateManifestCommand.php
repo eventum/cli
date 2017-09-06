@@ -13,11 +13,11 @@
 
 namespace Eventum\Console\Command;
 
+use stdClass;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use stdClass;
 
 class SelfUpdateManifestCommand extends Command
 {
@@ -65,7 +65,7 @@ EOT
             $version,
         );
 
-        $result = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES). "\n";
+        $result = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
         if ($outputFile = $input->getOption('output-file')) {
             file_put_contents($outputFile, $result);
         } else {
@@ -87,7 +87,8 @@ EOT
         if ($rc != 0) {
             throw new \RuntimeException("$command failed with rc=$rc");
         }
-        $parts = explode(" ", $out);
+        $parts = explode(' ', $out);
+
         return end($parts);
     }
 }

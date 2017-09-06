@@ -105,8 +105,8 @@ class Config
     }
 
     /**
-     * @return string
      * @throws RuntimeException
+     * @return string
      */
     public static function getHomeConfigDir()
     {
@@ -118,6 +118,7 @@ class Config
                 sprintf('The "%s" directory must exist run correctly', $dir)
             );
         }
+
         return $dir;
     }
 }

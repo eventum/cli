@@ -15,17 +15,15 @@ namespace Eventum\Console;
 
 /**
  * Various utility methods
- *
- * @package Eventum\Console
  */
 class Util
 {
     /**
      * Format a byte count into a human-readable representation.
      *
-     * @link http://api.propelorm.org/2.0-master/Propel/Runtime/Util/Profiler.html#method_formatMemory
-     * @param integer $bytes Byte count to convert. Can be negative.
-     * @param integer $precision How many decimals to include.
+     * @see http://api.propelorm.org/2.0-master/Propel/Runtime/Util/Profiler.html#method_formatMemory
+     * @param int $bytes Byte count to convert. Can be negative.
+     * @param int $precision how many decimals to include
      *
      * @return string
      */
@@ -46,9 +44,9 @@ class Util
     /**
      * Rounding to significant digits (sort of like JavaScript's toPrecision()).
      *
-     * @link http://api.propelorm.org/2.0-master/Propel/Runtime/Util/Profiler.html#method_toPrecision
+     * @see http://api.propelorm.org/2.0-master/Propel/Runtime/Util/Profiler.html#method_toPrecision
      * @param float $number Value to round
-     * @param integer $significantFigures Number of significant figures
+     * @param int $significantFigures Number of significant figures
      *
      * @return float
      */
@@ -78,7 +76,7 @@ class Util
      *
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @param string $file File path
-     * @param string $default Optional default mime type to return if the file's mime type can not be identified.
+     * @param string $default optional default mime type to return if the file's mime type can not be identified
      * @return string MIME type
      */
     public static function getFileMimeType($file, $default = 'application/octet-stream')

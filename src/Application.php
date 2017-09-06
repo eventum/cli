@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputOption;
 class Application extends BaseApplication
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getDefaultInputDefinition()
     {
