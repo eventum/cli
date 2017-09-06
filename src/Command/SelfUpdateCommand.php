@@ -13,34 +13,23 @@
 
 namespace Eventum\Console\Command;
 
-use Herrera\Phar\Update\Manager;
-use Herrera\Phar\Update\Manifest;
-use KevinGH\Version\Version;
+use KevinGH\Amend;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SelfUpdateCommand extends Command
+class SelfUpdateCommand extends Amend\Command
 {
     const MANIFEST_FILE = 'https://raw.githubusercontent.com/eventum/cli/dist/manifest.json';
 
-    protected function configure()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->getHelperSet()->set(new Amend\Helper());
+        $this->setManifestUri(self::MANIFEST_FILE);
+
         $this
             ->setName('self-update')
             ->setDescription('Updates eventum.phar to the latest version');
-    }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
-        $version = Version::create($this->getApplication()->getVersion());
-
-        $update = $manager->getManifest()->findRecent($version, true, true);
-        if ($update) {
-            $output->writeln("<info>Updating to version {$update->getVersion()}.</info>");
-            $manager->update($version, true, true);
-        } else {
-            $output->writeln("<info>You are already using composer version {$version}.</info>");
-        }
+        parent::execute($input, $output);
     }
 }
