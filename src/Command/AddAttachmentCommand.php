@@ -126,6 +126,9 @@ EOT
         return $description;
     }
 
+    /**
+     * @param int $filesize
+     */
     private function checkFilesize($filesize)
     {
         $max = $this->getMaxFileSize();
@@ -145,6 +148,6 @@ EOT
      */
     private function getMaxFileSize()
     {
-        return $this->getClient()->getServerParameter('upload_max_filesize');
+        return (int)$this->getClient()->getServerParameter('upload_max_filesize');
     }
 }

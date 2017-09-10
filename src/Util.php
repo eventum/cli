@@ -30,7 +30,7 @@ class Util
     public function formatMemory($bytes, $precision = 3)
     {
         $absBytes = abs($bytes);
-        $sign = ($bytes == $absBytes) ? 1 : -1;
+        $sign = ($bytes === $absBytes) ? 1 : -1;
         $suffix = array('B', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
         $total = count($suffix);
 
