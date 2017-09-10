@@ -38,7 +38,7 @@ class Util
             $absBytes /= 1024;
         }
 
-        return self::toPrecision($sign * $absBytes, $precision) . $suffix[$i];
+        return $this->toPrecision($sign * $absBytes, $precision) . $suffix[$i];
     }
 
     /**
@@ -50,7 +50,7 @@ class Util
      *
      * @return float
      */
-    public function toPrecision($number, $significantFigures = 3)
+    private function toPrecision($number, $significantFigures = 3)
     {
         if (0 === $number) {
             return 0;
@@ -79,7 +79,7 @@ class Util
      * @param string $default optional default mime type to return if the file's mime type can not be identified
      * @return string MIME type
      */
-    public static function getFileMimeType($file, $default = 'application/octet-stream')
+    public function getFileMimeType($file, $default = 'application/octet-stream')
     {
         $mime_type = null;
 
