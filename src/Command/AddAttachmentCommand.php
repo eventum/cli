@@ -121,9 +121,8 @@ EOT
     {
         $hostname = gethostname();
         $file = realpath($file);
-        $description = "File {$file} uploaded from {$hostname} via CLI";
 
-        return $description;
+        return "File {$file} uploaded from {$hostname} via CLI";
     }
 
     /**

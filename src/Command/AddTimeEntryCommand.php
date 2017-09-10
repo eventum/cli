@@ -89,6 +89,7 @@ EOT
             return (int)$category;
         }
 
+        /** @var array $categories */
         $categories = $this->client->getTimeTrackingCategories($issue_id);
 
         if ($category && ($category_id = array_search($category, $categories))) {

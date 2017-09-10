@@ -14,6 +14,7 @@
 namespace Eventum\Console\Command;
 
 use Eventum\RPC\RemoteApi;
+use Eventum_RPC;
 use Eventum_RPC_Exception;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
@@ -24,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ViewIssueCommand extends Command
 {
     /**
-     * @var RemoteApi|\Eventum_RPC
+     * @var RemoteApi|Eventum_RPC
      */
     private $client;
 

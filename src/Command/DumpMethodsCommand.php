@@ -66,7 +66,7 @@ EOT
      * Get methods to display.
      *
      * @param InputInterface $input
-     * @return array List of methods to inspect
+     * @return CallbackFilterIterator
      */
     private function getMethods($input)
     {
@@ -91,9 +91,8 @@ EOT
             // accept anything else
             return true;
         };
-        $filter = new CallbackFilterIterator($it, $accept);
 
-        return $filter;
+        return new CallbackFilterIterator($it, $accept);
     }
 
     /**
