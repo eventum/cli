@@ -14,6 +14,7 @@
 namespace Eventum\Console\Command;
 
 use Eventum_RPC_Exception;
+use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -134,7 +135,7 @@ EOT
 
         $max = $this->util->formatMemory($max, 2);
         $filesize = $this->util->formatMemory($filesize, 2);
-        throw new \InvalidArgumentException("Uploaded file too big: $filesize, max filesize $max");
+        throw new InvalidArgumentException("Uploaded file too big: $filesize, max filesize $max");
     }
 
     /**

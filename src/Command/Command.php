@@ -19,6 +19,7 @@ use Eventum\Console\IO;
 use Eventum\Console\Util;
 use Eventum\RPC\RemoteApi;
 use Eventum_RPC;
+use Eventum_RPC_Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command as BaseCommand;
@@ -118,7 +119,9 @@ class Command extends BaseCommand
      * Ask authentication credentials, retry several times
      *
      * @param string $url
+     * @throws InvalidArgumentException
      * @return array
+     * @throws RuntimeException
      */
     private function askAuthentication($url, $retry = 3)
     {
@@ -141,13 +144,13 @@ class Command extends BaseCommand
                 $this->storeAuth($url, $storeAuth);
 
                 return $auth;
-            } catch (\Eventum_RPC_Exception $e) {
+            } catch (Eventum_RPC_Exception $e) {
                 $this->output->writeln("<error>ERROR: {$e->getMessage()}</error>");
             }
             $this->output->writeln('');
         }
 
-        throw new \RuntimeException('Unable to authenticate');
+        throw new RuntimeException('Unable to authenticate');
     }
 
     /**
@@ -218,6 +221,7 @@ class Command extends BaseCommand
      * If user has not specified project id via commandline,
      * ask it from user, unless user belongs to exactly one project.
      *
+     * @throws InvalidArgumentException
      * @return int
      */
     protected function getProjectId()

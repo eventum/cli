@@ -15,6 +15,7 @@ namespace Eventum\Console\Command;
 
 use Eventum\RPC\RemoteApi;
 use Eventum_RPC;
+use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -78,6 +79,7 @@ EOT
 
     /**
      * @return int
+     * @throws InvalidArgumentException
      */
     private function getCategory($issue_id)
     {

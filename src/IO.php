@@ -13,6 +13,7 @@
 
 namespace Eventum\Console;
 
+use InvalidArgumentException;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -45,6 +46,7 @@ class IO
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function ask($question, $default = null)
     {
@@ -57,6 +59,7 @@ class IO
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function askHidden($question, $default = null)
     {
@@ -71,6 +74,7 @@ class IO
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function askChoices($question, $choices, $errorMessage, $default = null)
     {
@@ -84,6 +88,7 @@ class IO
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function askConfirmation($question, $default = true)
     {
@@ -92,6 +97,7 @@ class IO
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function askAndValidate($question, $validator, $attempts = false, $default = null)
     {

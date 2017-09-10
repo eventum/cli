@@ -13,6 +13,7 @@
 
 namespace Eventum\Console;
 
+use LogicException;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -20,6 +21,7 @@ class Application extends BaseApplication
 {
     /**
      * {@inheritdoc}
+     * @throws LogicException
      */
     protected function getDefaultInputDefinition()
     {
@@ -39,6 +41,8 @@ class Application extends BaseApplication
 
     /**
      * Initializes all the composer commands
+     *
+     * @throws LogicException
      */
     protected function getDefaultCommands()
     {

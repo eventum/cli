@@ -36,6 +36,8 @@ class Config
 
     /**
      * Load optional config in JSON format
+     *
+     * @throws RuntimeException
      */
     public function load()
     {

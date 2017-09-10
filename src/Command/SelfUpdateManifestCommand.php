@@ -13,6 +13,7 @@
 
 namespace Eventum\Console\Command;
 
+use RuntimeException;
 use stdClass;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -78,14 +79,15 @@ EOT
      *
      * @param string $pharFile
      * @param $pharFile
-     * @return mixed
+     * @return string
+     * @throws RuntimeException
      */
     private function getPharFileVersion($pharFile)
     {
         $command = "$pharFile --version --no-ansi";
         $out = exec($command, $discard, $rc);
-        if ($rc != 0) {
-            throw new \RuntimeException("$command failed with rc=$rc");
+        if ($rc !== 0) {
+            throw new RuntimeException("$command failed with rc=$rc");
         }
         $parts = explode(' ', $out);
 
