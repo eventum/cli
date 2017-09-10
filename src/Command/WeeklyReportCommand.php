@@ -79,7 +79,7 @@ EOT
         $prj_id = $this->getProjectId();
         $data = $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
 
-        $group_name = $data['group_name'] ? "[{$data['group_name']}]" : '';
+        $group_name = isset($data['group_name']) ? "[{$data['group_name']}]" : '';
         $output->writeln(
             "{$data['user']['usr_full_name']}{$group_name} Weekly Report {$data['start']} - {$data['end']}"
         );
