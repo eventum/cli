@@ -51,7 +51,7 @@ EOT
         $client = $this->getClient();
 
         $result = $client->setIssueStatus($issue_id, $new_status);
-        if ($result == 'OK') {
+        if ($result === 'OK') {
             $message = "Status changed to '<info>$new_status</info>' on issue #$issue_id";
             $output->writeln($message);
 

@@ -87,7 +87,7 @@ EOT
         try {
             $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
         } catch (Eventum_RPC_Exception $e) {
-            if ($e->getMessage() == 'XML error: Invalid document end at line 1') {
+            if ($e->getMessage() === 'XML error: Invalid document end at line 1') {
                 $this->checkFilesize(strlen($contents));
             }
             throw $e;

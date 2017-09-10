@@ -237,7 +237,7 @@ class Command extends BaseCommand
         }
 
         // if user has only one project. return that
-        if (count($res) == 1) {
+        if (count($res) === 1) {
             $project = current($res);
 
             return (int)$project['id'];
