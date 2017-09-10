@@ -54,7 +54,7 @@ class Application extends BaseApplication
         $commands[] = new Command\AddTimeEntryCommand();
         $commands[] = new Command\SetIssueStatusCommand();
 
-        if ('phar:' === substr(__FILE__, 0, 5)) {
+        if (strpos(__FILE__, 'phar:') === 0) {
             $commands[] = new Command\SelfUpdateCommand('self-update');
         }
 

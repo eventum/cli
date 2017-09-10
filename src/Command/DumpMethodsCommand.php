@@ -79,7 +79,7 @@ EOT
         $length = strlen($method);
         $accept = function ($value) use ($method, $length) {
             // exclude system methods
-            if (substr($value, 0, 7) == 'system.') {
+            if (strpos($value, 'system.') === 0) {
                 return false;
             }
 
