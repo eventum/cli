@@ -74,7 +74,6 @@ EOT
         // take current week
         $start = new DateTime('Last Monday');
         $end = new DateTime('Next Monday');
-        // TODO: handle parameters and week option
 
         $prj_id = $this->getProjectId();
         $data = $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
