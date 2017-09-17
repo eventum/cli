@@ -120,8 +120,8 @@ class Command extends BaseCommand
      *
      * @param string $url
      * @throws InvalidArgumentException
-     * @return array
      * @throws RuntimeException
+     * @return array
      */
     private function askAuthentication($url, $retry = 3)
     {

@@ -79,8 +79,8 @@ EOT
      *
      * @param string $pharFile
      * @param $pharFile
-     * @return string
      * @throws RuntimeException
+     * @return string
      */
     private function getPharFileVersion($pharFile)
     {

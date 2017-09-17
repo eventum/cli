@@ -52,31 +52,18 @@ class WeeklyReportCommand extends Command
             ->setHelp(
                 <<<EOT
 
-<info>%command.full_name% [<week>] [--separate-closed]</info>
-<info>%command.full_name% [<start>] [<end>] [--separate-closed]</info>
+<info>%command.full_name% [<start_date>] [<end_date>] [--separate-closed]</info>
 
-Fetches the weekly report. Week is specified as an integer with 0 representing
-the current week, -1 the previous week and so on. If the week is omitted it 
-defaults to the current week. Alternately, a date range can be set. Dates 
-should be in the format 'YYYY-MM-DD'.
+Shows the weekly report.
+
+Dates should be in the format 'YYYY-MM-DD'.
 EOT
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $start = (string)$input->getArgument('start');
-        $end = (string)$input->getArgument('end');
-        $options = array(
-            'separate_closed' => $input->getOption('separate-closed'),
-        );
-
-        // take current week
-        $start = new DateTime('Last Monday');
-        $end = new DateTime('Next Monday');
-
-        $prj_id = $this->getProjectId();
-        $data = $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
+        $data = $this->getWeeklyReportData();
 
         $group_name = isset($data['group_name']) ? "[{$data['group_name']}]" : '';
         $output->writeln(
@@ -121,5 +108,27 @@ EOT
         $output->writeln("Login Time Spent:     $time_spent");
 
         $output->writeln("Total Time Spent:     {$data['total_time']}");
+    }
+
+    private function getWeeklyReportData()
+    {
+        list($start, $end) = $this->getDateRange();
+        $prj_id = $this->getProjectId();
+        $options = array(
+            'separate_closed' => $this->input->getOption('separate-closed'),
+        );
+
+        return $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
+    }
+
+    private function getDateRange()
+    {
+        $start = $this->input->getArgument('start') ?: 'Last Monday';
+        $end = $this->input->getArgument('end') ?: 'Next Monday';
+
+        return array(
+            new DateTime($start),
+            new DateTime($end),
+        );
     }
 }
