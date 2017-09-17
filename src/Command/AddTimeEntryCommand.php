@@ -78,8 +78,8 @@ EOT
     }
 
     /**
-     * @return int
      * @throws InvalidArgumentException
+     * @return int
      */
     private function getCategory($issue_id)
     {
