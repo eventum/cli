@@ -13,6 +13,7 @@
 
 namespace Eventum\Console\Command;
 
+use Herrera\Version\Parser;
 use KevinGH\Amend;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,6 +26,13 @@ class SelfUpdateCommand extends Amend\Command
     {
         $this->getHelperSet()->set(new Amend\Helper());
         $this->setManifestUri(self::MANIFEST_FILE);
+
+        // Allow pre-release updates for pre-releases themselves
+        $version = Parser::toVersion($this->getApplication()->getVersion());
+        if (!$version->isStable()) {
+            $input->setOption('pre', true);
+            $output->writeln('Set pre-release to <info>true</info>', OutputInterface::VERBOSITY_VERBOSE);
+        }
 
         parent::execute($input, $output);
     }
