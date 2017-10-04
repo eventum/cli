@@ -55,7 +55,8 @@ manifest: dist
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
 
 dist/.git:
-	git clone . dist -b gh-pages
+	git_url=`git config remote.origin.url`; \
+	git clone "$$git_url" dist -b gh-pages --depth=1
 
 distclean: clean
 	rm -rf composer.lock vendor *.phar
