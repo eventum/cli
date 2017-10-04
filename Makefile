@@ -1,5 +1,5 @@
 define find_tool
-$(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
+$(abspath $(shell PATH=.:$$PATH; which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false))
 endef
 
 define fetch_tool
@@ -45,17 +45,17 @@ php-cs-fixer.phar:
 clean:
 	rm -vf eventum.phar
 
-dist: dist/.git
-	rm -rf dist/build
-	git clone . dist/build
-	$(MAKE) -C dist/build eventum.phar composer_options="--no-dev --classmap-authoritative"
-	mv dist/build/eventum.phar dist
+dist:
+	rm -rf build
+	git clone . build
+	$(MAKE) -C build eventum.phar box=$(box) composer=$(composer) composer_options="--no-dev --classmap-authoritative"
 
 manifest: dist
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
 
 dist/.git:
-	git clone git@github.com:eventum/cli.git dist -b gh-pages --depth=1
+	git_url=`git config remote.origin.url`; \
+	git clone "$$git_url" dist -b gh-pages --depth=1
 
 distclean: clean
 	rm -rf composer.lock vendor *.phar
