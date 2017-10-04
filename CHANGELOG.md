@@ -4,12 +4,12 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.3]
+## [0.0.3] - 2017-10-04
 
 - implement date arguments for weekly-report #5
 - add `close` command to close issues, #4
 
-[0.0.3]: https://github.com/eventum/cli/compare/0.0.2...master
+[0.0.3]: https://github.com/eventum/cli/compare/0.0.2...0.0.3
 
 ## [0.0.2] - 2017-09-06
 
