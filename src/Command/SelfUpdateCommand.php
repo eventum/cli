@@ -15,6 +15,7 @@ namespace Eventum\Console\Command;
 
 use Herrera\Version\Parser;
 use KevinGH\Amend;
+use KevinGH\Amend\Helper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -34,6 +35,26 @@ class SelfUpdateCommand extends Amend\Command
             $output->writeln('Set pre-release to <info>true</info>', OutputInterface::VERBOSITY_VERBOSE);
         }
 
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE) {
+            $this->dumpUpdates($output);
+        }
+
         parent::execute($input, $output);
+    }
+
+    public function dumpUpdates(OutputInterface $output)
+    {
+        /** @var Helper $amend */
+        $amend = $this->getHelper('amend');
+        $manager = $amend->getManager(self::MANIFEST_FILE);
+
+        $output->writeln('Available versions (<info>*</info> indicates pre-release):');
+
+        $manifest = $manager->getManifest();
+        foreach ($manifest->getUpdates() as $update) {
+            $version = $update->getVersion();
+            $preReleaseFlag = $version->isStable() ? ' ' : '*';
+            $output->writeln("- <info>{$version}</info>{$preReleaseFlag} - {$update->getUrl()}");
+        }
     }
 }
