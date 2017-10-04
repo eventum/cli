@@ -5,6 +5,7 @@
 /.php_cs.cache
 /composer.lock
 /dist/
+/build/
 
 # vim
 [._]*.s[a-w][a-z]

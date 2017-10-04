@@ -23,6 +23,6 @@ script:
   - git fetch --unshallow
   - make deps
   - make dist
-  - dist/eventum.phar --version
+  - build/eventum.phar --version
 
 # vim:ts=2:sw=2:et

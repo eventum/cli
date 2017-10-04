@@ -45,12 +45,10 @@ php-cs-fixer.phar:
 clean:
 	rm -vf eventum.phar
 
-dist: dist/.git
-	rm -rf dist/build
-	git clone . dist/build
-	$(MAKE) -C dist/build eventum.phar box=$(box) composer=$(composer) composer_options="--no-dev --classmap-authoritative"
-
-	mv dist/build/eventum.phar dist
+dist:
+	rm -rf build
+	git clone . build
+	$(MAKE) -C build eventum.phar box=$(box) composer=$(composer) composer_options="--no-dev --classmap-authoritative"
 
 manifest: dist
 	./eventum.php create-manifest -o dist/manifest.json dist/eventum.phar
