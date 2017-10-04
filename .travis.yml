@@ -23,6 +23,7 @@ install:
   - composer install --no-interaction --prefer-dist
 
 script:
+  - make deps
   - make dist
   - dist/eventum.phar --version
 
