@@ -1,5 +1,5 @@
 define find_tool
-$(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
+$(shell PATH=.:$$PATH which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
 endef
 
 define fetch_tool
@@ -48,7 +48,7 @@ clean:
 dist: dist/.git
 	rm -rf dist/build
 	git clone . dist/build
-	$(MAKE) -C dist/build eventum.phar composer_options="--no-dev --classmap-authoritative"
+	$(MAKE) -C dist/build eventum.phar box=$(box) composer=$(composer) composer_options="--no-dev --classmap-authoritative"
 	mv dist/build/eventum.phar dist
 
 manifest: dist
