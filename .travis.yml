@@ -1,0 +1,28 @@
+language: php
+sudo: required
+dist: trusty
+
+jobs:
+  include:
+    - php: "5.3"
+    - php: "5.4"
+    - php: "5.5"
+    - php: "5.6"
+    - php: "7.0"
+    - php: "7.1"
+    - php: "nightly"
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.composer/cache
+    - vendor
+
+install:
+  - composer install --no-interaction --prefer-dist
+
+script:
+  - make dist
+  - dist/eventum.phar --version
+
+# vim:ts=2:sw=2:et
