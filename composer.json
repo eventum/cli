@@ -31,9 +31,17 @@
 		"php": "^5.3.9 || ^7.0",
 		"symfony/console": "^2.7.0 || ^3.0"
 	},
+	"require-dev": {
+		"phpunit/phpunit": "^4.8"
+	},
 	"autoload": {
 		"psr-4" : {
 			"Eventum\\Console\\" : "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4" : {
+			"Eventum\\Console\\Test\\" : "tests/"
 		}
 	}
 }
