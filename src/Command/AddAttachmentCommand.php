@@ -15,6 +15,7 @@ namespace Eventum\Console\Command;
 
 use Eventum_RPC_Exception;
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -75,7 +76,7 @@ EOT
     {
         $issue_id = (int )$input->getArgument('issue_id');
         $file = $input->getArgument('file');
-        $contents = file_get_contents($file);
+        $contents = $this->getFileContents($file);
         $filename = $input->getOption('filename') ?: basename($file);
         $mimetype = $input->getOption('mimetype') ?: $this->util->getFileMimeType($file);
         $file_description = $input->getOption('description') ?: $this->getFileDescription($file);
@@ -112,6 +113,30 @@ EOT
     }
 
     /**
+     * @param string $fileName
+     * @return string
+     * @throws RuntimeException
+     */
+    private function getFileContents($fileName)
+    {
+        if (!file_exists($fileName)) {
+            throw new RuntimeException("File does not exist: $fileName");
+        }
+        if (!is_file($fileName)) {
+            throw new RuntimeException("Not a file: $fileName");
+        }
+        if (!is_readable($fileName)) {
+            throw new RuntimeException("File not readable: $fileName");
+        }
+
+        $contents = file_get_contents($fileName);
+        if ($contents === false) {
+            throw new RuntimeException("Unable to read $fileName");
+        }
+        return $contents;
+    }
+
+    /**
      * Generate automatic description for file
      *
      * @param string $file
@@ -126,18 +151,19 @@ EOT
     }
 
     /**
-     * @param int $filesize
+     * @param int $fileSize
+     * @throws InvalidArgumentException
      */
-    private function checkFilesize($filesize)
+    private function checkFilesize($fileSize)
     {
         $max = $this->getMaxFileSize();
-        if ($filesize <= $max) {
+        if ($fileSize <= $max) {
             return;
         }
 
         $max = $this->util->formatMemory($max, 2);
-        $filesize = $this->util->formatMemory($filesize, 2);
-        throw new InvalidArgumentException("Uploaded file too big: $filesize, max filesize $max");
+        $fileSize = $this->util->formatMemory($fileSize, 2);
+        throw new InvalidArgumentException("Uploaded file too big: $fileSize, max filesize $max");
     }
 
     /**
