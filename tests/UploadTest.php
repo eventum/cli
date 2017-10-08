@@ -16,6 +16,7 @@ namespace Eventum\Console\Test;
 use Eventum\Console\Application;
 use Eventum\Console\Command\AddAttachmentCommand;
 use Eventum_RPC_Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -50,7 +51,8 @@ class UploadTest extends TestCase
 
     public function testUploadEmptyFile()
     {
-        $input = array('issue_id' => '1', 'file' => '/dev/null');
+        $file = tempnam(sys_get_temp_dir(), "testfile");
+        $input = array('issue_id' => '1', 'file' => $file);
 
         try {
             $this->tester->execute(
@@ -59,6 +61,20 @@ class UploadTest extends TestCase
             $this->fail();
         } catch (Eventum_RPC_Exception $e) {
             $this->assertEquals('Empty file uploaded', $e->getMessage());
+        }
+    }
+
+    public function testUploadNofile()
+    {
+        $input = array('issue_id' => '1', 'file' => "/proc/nosuch-file-there-ever");
+
+        try {
+            $this->tester->execute(
+                array_merge(array('command' => $this->command->getName()), $input)
+            );
+            $this->fail();
+        } catch (RuntimeException $e) {
+            $this->assertEquals("File does not exist: {$input['file']}", $e->getMessage());
         }
     }
 }
