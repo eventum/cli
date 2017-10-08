@@ -4,6 +4,7 @@ namespace Eventum\Console\Test;
 
 use Eventum\Console\Application;
 use Eventum\Console\Command\AddAttachmentCommand;
+use Eventum_RPC_Exception;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class UploadTest extends TestCase
@@ -19,9 +20,15 @@ class UploadTest extends TestCase
         $command = $application->find('add-attachment');
 
         $tester = new CommandTester($command);
-        $tester->execute(
-            array_merge(array('command' => $command->getName()), $input)
-        );
+        try {
+            $tester->execute(
+                array_merge(array('command' => $command->getName()), $input)
+            );
+            $this->fail();
+
+        } catch (Eventum_RPC_Exception $e) {
+            $this->assertEquals("Empty file uploaded", $e->getMessage());
+        }
     }
 
     public function getEmptyFileUploadData()
