@@ -20,10 +20,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CloseIssueCommand extends Command
 {
+    const COMMAND_NAME = 'close';
+
     protected function configure()
     {
         $this
-            ->setName('close')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('Marks an issue as closed')
             ->addArgument(
                 'issue_id',

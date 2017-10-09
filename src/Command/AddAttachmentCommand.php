@@ -23,10 +23,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddAttachmentCommand extends Command
 {
+    const COMMAND_NAME = 'add-attachment';
+
     protected function configure()
     {
         $this
-            ->setName('add-attachment')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('Add attachment to issue')
             ->addArgument(
                 'issue_id',
@@ -114,8 +116,8 @@ EOT
 
     /**
      * @param string $fileName
-     * @return string
      * @throws RuntimeException
+     * @return string
      */
     private function getFileContents($fileName)
     {
@@ -133,6 +135,7 @@ EOT
         if ($contents === false) {
             throw new RuntimeException("Unable to read $fileName");
         }
+
         return $contents;
     }
 

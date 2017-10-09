@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DumpMethodsCommand extends Command
 {
+    const COMMAND_NAME = 'dump-methods';
+
     /**
      * @var RemoteApi|Eventum_RPC
      */
@@ -31,7 +33,7 @@ class DumpMethodsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('dump-methods')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('Dump available XMLRPC methods from Eventum')
             ->addArgument(
                 'method',

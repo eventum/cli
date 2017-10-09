@@ -60,7 +60,7 @@ class Application extends BaseApplication
         $commands[] = new Command\CloseIssueCommand();
 
         if (strpos(__FILE__, 'phar:') === 0) {
-            $commands[] = new Command\SelfUpdateCommand('self-update');
+            $commands[] = new Command\SelfUpdateCommand(Command\SelfUpdateCommand::COMMAND_NAME);
         }
 
         if (class_exists('Eventum\Console\Command\SelfUpdateManifestCommand')) {

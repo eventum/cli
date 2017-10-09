@@ -20,10 +20,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListIssuesCommand extends Command
 {
+    const COMMAND_NAME = 'open-issues';
+
     protected function configure()
     {
         $this
-            ->setName('open-issues')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('List open issues')
             ->addOption(
                 'status',

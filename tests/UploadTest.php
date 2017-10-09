@@ -33,7 +33,7 @@ class UploadTest extends TestCase
         $application = new Application();
         $application->add(new AddAttachmentCommand());
 
-        $this->command = $application->find('add-attachment');
+        $this->command = $application->find(AddAttachmentCommand::COMMAND_NAME);
         $this->tester = new CommandTester($this->command);
     }
 
@@ -51,7 +51,7 @@ class UploadTest extends TestCase
 
     public function testUploadEmptyFile()
     {
-        $file = tempnam(sys_get_temp_dir(), "testfile");
+        $file = tempnam(sys_get_temp_dir(), 'testfile');
         $input = array('issue_id' => '1', 'file' => $file);
 
         try {
@@ -66,7 +66,7 @@ class UploadTest extends TestCase
 
     public function testUploadNofile()
     {
-        $input = array('issue_id' => '1', 'file' => "/proc/nosuch-file-there-ever");
+        $input = array('issue_id' => '1', 'file' => '/proc/nosuch-file-there-ever');
 
         try {
             $this->tester->execute(
