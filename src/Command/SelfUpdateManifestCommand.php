@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SelfUpdateManifestCommand extends Command
 {
-    const COMMAND_NAME = 'create-manifest';
+    const COMMAND_NAME = 'system:create-manifest';
 
     const DIST_URL = 'https://raw.githubusercontent.com/eventum/cli/dist/eventum.phar';
 
@@ -30,6 +30,7 @@ class SelfUpdateManifestCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(array('create-manifest'))
             ->setDescription('Creates manifest.json for self-update command')
             ->addArgument(
                 'phar-file',

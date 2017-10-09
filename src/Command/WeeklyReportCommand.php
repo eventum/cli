@@ -21,13 +21,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WeeklyReportCommand extends Command
 {
-    const COMMAND_NAME = 'weekly-report';
+    const COMMAND_NAME = 'report:weekly';
 
     protected function configure()
     {
         $this
             ->setName(self::COMMAND_NAME)
-            ->setAliases(array('wr'))
+            ->setAliases(array('wr', 'weekly-report'))
             ->setDescription('Show weekly reports')
             ->addArgument(
                 'start',

@@ -21,15 +21,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AddAttachmentCommand extends Command
+class UploadAttachmentCommand extends Command
 {
-    const COMMAND_NAME = 'add-attachment';
+    const COMMAND_NAME = 'attachment:upload';
 
     protected function configure()
     {
         $this
             ->setName(self::COMMAND_NAME)
-            ->setDescription('Add attachment to issue')
+            ->setAliases(array('add-attachment'))
+            ->setDescription('Upload attachment to an issue')
             ->addArgument(
                 'issue_id',
                 InputArgument::REQUIRED,

@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddTimeEntryCommand extends Command
 {
-    const COMMAND_NAME = 'add-time';
+    const COMMAND_NAME = 'timetracking:add';
 
     /**
      * @var RemoteApi|Eventum_RPC
@@ -34,6 +34,7 @@ class AddTimeEntryCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(array('add-time'))
             ->setDescription('Add time-tracking entry to an issue')
             ->addArgument(
                 'issue_id',

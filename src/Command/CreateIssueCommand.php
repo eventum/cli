@@ -20,13 +20,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateIssueCommand extends Command
 {
-    const COMMAND_NAME = 'create-issue';
+    const COMMAND_NAME = 'issue:close';
 
     protected function configure()
     {
         $this
             ->setName(self::COMMAND_NAME)
             ->setDescription('Create issue')
+            ->setAliases(array('create-issue'))
             ->addOption(
                 'summary',
                 's',

@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ViewIssueCommand extends Command
 {
-    const COMMAND_NAME = 'view-issue';
+    const COMMAND_NAME = 'issue:view';
 
     /**
      * @var RemoteApi|Eventum_RPC
@@ -35,6 +35,7 @@ class ViewIssueCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(array('view-issue'))
             ->setDescription('Display Issue details')
             ->addArgument(
                 'issue',

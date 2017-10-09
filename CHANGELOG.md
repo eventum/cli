@@ -4,15 +4,16 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.4]
+## [0.1.0]
 
-- file upload: test that input file is accessible #6
+- file upload: test that input file is accessible, #6
+- namespace commands grouping them logically, #7
 
-[0.0.4]: https://github.com/eventum/cli/compare/0.0.3...master
+[0.1.0]: https://github.com/eventum/cli/compare/0.0.3...master
 
 ## [0.0.3] - 2017-10-04
 
-- implement date arguments for weekly-report #5
+- implement date arguments for weekly-report, #5
 - add `close` command to close issues, #4
 
 [0.0.3]: https://github.com/eventum/cli/compare/0.0.2...0.0.3
