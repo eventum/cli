@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddTimeEntryCommand extends Command
 {
-    const COMMAND_NAME = 'timetracking:add';
+    const COMMAND_NAME = 'time:spend';
 
     /**
      * @var RemoteApi|Eventum_RPC
