@@ -39,11 +39,12 @@ Elan Ruusamäe Weekly Report 2015.04.27 - 2015.05.03
 
 Available commands:
 
-| Command | |
-| ------------- | ------------- |
-| **add-attachment** | Add attachment to issue  |
-| **close** | Marks an issue as closed |
-| **open-issues** | List open issues |
-| **set-status**, **ss** | Set Issue status |
-| **view-issue** | Display Issue details |
-| **weekly-report**, **wr**  | Show weekly reports |
+| Command               |                                       |
+| --------------------- | ------------------------------------- |
+| **attachment:upload** | Upload attachment to an issue         |
+| **issue:close**       | Marks an issue as closed              |
+| **issue:list**        | List open issues                      |
+| **issue:status**      | Set Issue status                      |
+| **issue:view**        | Display Issue details                 |
+| **report:weekly**     | Show weekly reports                   |
+| **time:spend**        | Add time-tracking entry to an issue   |
