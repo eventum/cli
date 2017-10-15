@@ -97,6 +97,7 @@ class Command extends BaseCommand
         if (!$this->client) {
             $url = $this->getUrl();
             $this->client = new Eventum_RPC($url);
+            $this->client->addUserAgent('EventumCLI/' . $this->getApplication()->getVersion());
 
             // set debug if verbosity debug
             if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
