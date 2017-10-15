@@ -4,12 +4,13 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.0]
+## [0.1.0] - 2017-10-15
 
 - file upload: test that input file is accessible, #6
 - namespace commands grouping them logically, #7
+- include app version in xmlrpc useragent
 
-[0.1.0]: https://github.com/eventum/cli/compare/0.0.3...master
+[0.1.0]: https://github.com/eventum/cli/compare/0.0.3...0.1.0
 
 ## [0.0.3] - 2017-10-04
 
