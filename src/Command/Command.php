@@ -89,6 +89,15 @@ class Command extends BaseCommand
         $this->auth->loadConfiguration($this->config);
     }
 
+    private function getUserAgent()
+    {
+        $version = $this->getApplication()->getVersion();
+        if ($version[0] === '@') {
+            $version = 'git';
+        }
+        return 'EventumCLI/' . $version;
+    }
+
     /**
      * @return RemoteApi|Eventum_RPC
      */
@@ -97,7 +106,7 @@ class Command extends BaseCommand
         if (!$this->client) {
             $url = $this->getUrl();
             $this->client = new Eventum_RPC($url);
-            $this->client->addUserAgent('EventumCLI/' . $this->getApplication()->getVersion());
+            $this->client->addUserAgent($this->getUserAgent());
 
             // set debug if verbosity debug
             if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
