@@ -19,11 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SetIssueStatusCommand extends Command
 {
+    const COMMAND_NAME = 'issue:status';
+
     protected function configure()
     {
         $this
-            ->setName('set-status')
-            ->setAliases(array('ss'))
+            ->setName(self::COMMAND_NAME)
+            ->setAliases(array('ss', 'set-status'))
             ->setDescription('Set Issue status')
             ->addArgument(
                 'issue_id',

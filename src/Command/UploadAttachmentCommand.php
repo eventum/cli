@@ -21,13 +21,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AddAttachmentCommand extends Command
+class UploadAttachmentCommand extends Command
 {
+    const COMMAND_NAME = 'attachment:upload';
+
     protected function configure()
     {
         $this
-            ->setName('add-attachment')
-            ->setDescription('Add attachment to issue')
+            ->setName(self::COMMAND_NAME)
+            ->setAliases(array('add-attachment'))
+            ->setDescription('Upload attachment to an issue')
             ->addArgument(
                 'issue_id',
                 InputArgument::REQUIRED,
@@ -114,8 +117,8 @@ EOT
 
     /**
      * @param string $fileName
-     * @return string
      * @throws RuntimeException
+     * @return string
      */
     private function getFileContents($fileName)
     {
@@ -133,6 +136,7 @@ EOT
         if ($contents === false) {
             throw new RuntimeException("Unable to read $fileName");
         }
+
         return $contents;
     }
 

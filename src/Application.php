@@ -52,7 +52,7 @@ class Application extends BaseApplication
         $commands[] = new Command\ViewIssueCommand();
         $commands[] = new Command\WeeklyReportCommand();
         $commands[] = new Command\CreateIssueCommand();
-        $commands[] = new Command\AddAttachmentCommand();
+        $commands[] = new Command\UploadAttachmentCommand();
         $commands[] = new Command\DumpMethodsCommand();
         $commands[] = new Command\ConfigCommand();
         $commands[] = new Command\AddTimeEntryCommand();
@@ -60,7 +60,7 @@ class Application extends BaseApplication
         $commands[] = new Command\CloseIssueCommand();
 
         if (strpos(__FILE__, 'phar:') === 0) {
-            $commands[] = new Command\SelfUpdateCommand('self-update');
+            $commands[] = new Command\SelfUpdateCommand(Command\SelfUpdateCommand::COMMAND_NAME);
         }
 
         if (class_exists('Eventum\Console\Command\SelfUpdateManifestCommand')) {

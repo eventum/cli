@@ -21,6 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SelfUpdateCommand extends Amend\Command
 {
+    const COMMAND_NAME = 'self-update';
+
     const MANIFEST_FILE = 'https://eventum.github.io/cli/manifest.json';
 
     protected function execute(InputInterface $input, OutputInterface $output)

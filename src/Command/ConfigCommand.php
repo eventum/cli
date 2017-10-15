@@ -19,10 +19,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConfigCommand extends Command
 {
+    const COMMAND_NAME = 'config';
+
     protected function configure()
     {
         $this
-            ->setName('config')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('Set config options')
             ->addOption(
                 'list',
