@@ -17,7 +17,6 @@ use Eventum\Console\AuthHelper;
 use Eventum\Console\Config;
 use Eventum\Console\IO;
 use Eventum\Console\Util;
-use Eventum\RPC\RemoteApi;
 use Eventum_RPC;
 use Eventum_RPC_Exception;
 use InvalidArgumentException;
@@ -64,7 +63,7 @@ class Command extends BaseCommand
     protected $config;
 
     /**
-     * @var RemoteApi|Eventum_RPC
+     * @var Eventum_RPC
      */
     private $client;
 
@@ -95,11 +94,12 @@ class Command extends BaseCommand
         if ($version[0] === '@') {
             $version = 'git';
         }
+
         return 'EventumCLI/' . $version;
     }
 
     /**
-     * @return RemoteApi|Eventum_RPC
+     * @return Eventum_RPC
      */
     protected function getClient()
     {

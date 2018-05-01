@@ -15,18 +15,25 @@ namespace Eventum\Console\Command;
 
 use ArrayIterator;
 use CallbackFilterIterator;
-use Eventum\RPC\RemoteApi;
+use Eventum\Console\Formatter\AnnotateFormatter;
+use Eventum\Console\Formatter\FormatterInterface;
+use Eventum\Console\Formatter\PhpdocFormatter;
 use Eventum_RPC;
+use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DumpMethodsCommand extends Command
 {
     const COMMAND_NAME = 'system:dump-methods';
 
+    const FORMAT_PHPDOC = 'phpdoc';
+    const FORMAT_ANNOTATE = 'annotate';
+
     /**
-     * @var RemoteApi|Eventum_RPC
+     * @var Eventum_RPC
      */
     private $client;
 
@@ -41,6 +48,13 @@ class DumpMethodsCommand extends Command
                 InputArgument::OPTIONAL,
                 'method name'
             )
+            ->addOption(
+                'format',
+                'f',
+                InputOption::VALUE_REQUIRED,
+                'Set format',
+                self::FORMAT_PHPDOC
+            )
             ->setHelp(
                 <<<EOT
                 <info>%command.full_name% method_name</info>
@@ -53,15 +67,31 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->client = $this->getClient();
+        $formatter = $this->getFormatter($output, $input->getOption('format'));
 
+        $formatter->open();
         foreach ($this->getMethods($input) as $method) {
             $help = $this->getMethodHelp($method);
             $signature = $this->getMethodSignature($method);
-            $return = array_shift($signature);
-            $arguments = implode(', ', $signature);
-            $output->writeln('');
-            $output->writeln("    <comment>$help</comment>");
-            $output->writeln("    function <info>$method</info>($arguments): $return");
+            $formatter->format($method, $signature, $help);
+        }
+        $formatter->close();
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param string $format
+     * @return FormatterInterface
+     */
+    private function getFormatter(OutputInterface $output, $format)
+    {
+        switch ($format) {
+            case self::FORMAT_PHPDOC:
+                return new PhpdocFormatter($output);
+            case self::FORMAT_ANNOTATE:
+                return new AnnotateFormatter($output);
+            default:
+                throw new InvalidArgumentException("Unknown format: $format");
         }
     }
 
@@ -71,7 +101,7 @@ EOT
      * @param InputInterface $input
      * @return CallbackFilterIterator
      */
-    private function getMethods($input)
+    private function getMethods(InputInterface $input)
     {
         $method = $input->getArgument('method');
 
