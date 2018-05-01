@@ -15,5 +15,7 @@ namespace Eventum\Console\Formatter;
 
 interface FormatterInterface
 {
+    public function open();
     public function format($function, $signature, $docstring);
+    public function close();
 }

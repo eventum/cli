@@ -25,12 +25,22 @@ class AnnotateFormatter implements FormatterInterface
         $this->output = $output;
     }
 
+    public function open()
+    {
+        $this->output->writeln('/**');
+    }
+
     public function format($function, $signature, $docstring)
     {
         $return = array_shift($signature);
         $doc = $this->parseBlockComment($docstring);
         $arguments = isset($doc['param']) ? $this->buildArguments($doc['param']) : '';
         $this->output->writeln(" * @method $return $function($arguments)");
+    }
+
+    public function close()
+    {
+        $this->output->writeln(' */');
     }
 
     private function buildArguments($params)

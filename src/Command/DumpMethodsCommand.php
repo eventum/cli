@@ -69,11 +69,13 @@ EOT
         $this->client = $this->getClient();
         $formatter = $this->getFormatter($output, $input->getOption('format'));
 
+        $formatter->open();
         foreach ($this->getMethods($input) as $method) {
             $help = $this->getMethodHelp($method);
             $signature = $this->getMethodSignature($method);
             $formatter->format($method, $signature, $help);
         }
+        $formatter->close();
     }
 
     /**

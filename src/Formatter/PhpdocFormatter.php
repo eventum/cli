@@ -25,6 +25,11 @@ class PhpdocFormatter implements FormatterInterface
         $this->output = $output;
     }
 
+    public function open()
+    {
+        $this->output->writeln('```php');
+    }
+
     public function format($function, $signature, $docstring)
     {
         $return = array_shift($signature);
@@ -33,5 +38,10 @@ class PhpdocFormatter implements FormatterInterface
         $this->output->writeln('');
         $this->output->writeln("    <comment>$docstring</comment>");
         $this->output->writeln("    function <info>$function</info>($arguments): $return");
+    }
+
+    public function close()
+    {
+        $this->output->writeln('```');
     }
 }
