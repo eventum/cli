@@ -17,8 +17,8 @@ use Eventum\Console\AuthHelper;
 use Eventum\Console\Config;
 use Eventum\Console\IO;
 use Eventum\Console\Util;
-use Eventum_RPC;
-use Eventum_RPC_Exception;
+use Eventum\RPC\EventumXmlRpcClient;
+use Eventum\RPC\XmlRpcException;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command as BaseCommand;
@@ -63,9 +63,9 @@ class Command extends BaseCommand
     protected $config;
 
     /**
-     * @var Eventum_RPC
+     * @var EventumXmlRpcClient
      */
-    private $client;
+    protected $client;
 
     /**
      * Initializes the command just after the input has been validated.
@@ -99,13 +99,13 @@ class Command extends BaseCommand
     }
 
     /**
-     * @return Eventum_RPC
+     * @return EventumXmlRpcClient
      */
     protected function getClient()
     {
         if (!$this->client) {
             $url = $this->getUrl();
-            $this->client = new Eventum_RPC($url);
+            $this->client = new EventumXmlRpcClient($url);
             $this->client->addUserAgent($this->getUserAgent());
 
             // set debug if verbosity debug
@@ -154,7 +154,7 @@ class Command extends BaseCommand
                 $this->storeAuth($url, $storeAuth);
 
                 return $auth;
-            } catch (Eventum_RPC_Exception $e) {
+            } catch (XmlRpcException $e) {
                 $this->output->writeln("<error>ERROR: {$e->getMessage()}</error>");
             }
             $this->output->writeln('');

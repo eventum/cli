@@ -13,7 +13,7 @@
 
 namespace Eventum\Console\Command;
 
-use Eventum_RPC_Exception;
+use Eventum\RPC\XmlRpcException;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -90,9 +90,9 @@ EOT
         $binary = $client->encodeBinary($contents);
         try {
             $res = $client->addFile($issue_id, $filename, $mimetype, $binary, $file_description, $internal_only);
-        } catch (Eventum_RPC_Exception $e) {
+        } catch (XmlRpcException $e) {
             if ($e->getMessage() === 'XML error: Invalid document end at line 1') {
-                $this->checkFilesize(strlen($contents));
+                $this->checkFileSize(strlen($contents));
             }
             throw $e;
         }
@@ -158,7 +158,7 @@ EOT
      * @param int $fileSize
      * @throws InvalidArgumentException
      */
-    private function checkFilesize($fileSize)
+    private function checkFileSize($fileSize)
     {
         $max = $this->getMaxFileSize();
         if ($fileSize <= $max) {
@@ -166,8 +166,8 @@ EOT
         }
 
         $max = $this->util->formatMemory($max, 2);
-        $fileSize = $this->util->formatMemory($fileSize, 2);
-        throw new InvalidArgumentException("Uploaded file too big: $fileSize, max filesize $max");
+        $printable = $this->util->formatMemory($fileSize, 2);
+        throw new InvalidArgumentException("Uploaded file too big: $printable, max filesize $max");
     }
 
     /**
