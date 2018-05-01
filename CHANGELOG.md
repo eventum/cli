@@ -4,6 +4,12 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+- add phpdoc block annotation output format to dump-methods command, #8
+
+[unreleased]: https://github.com/eventum/cli/compare/0.1.0...master
+
 ## [0.1.0] - 2017-10-15
 
 - file upload: test that input file is accessible, #6
