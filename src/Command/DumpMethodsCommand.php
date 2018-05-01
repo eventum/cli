@@ -18,7 +18,6 @@ use CallbackFilterIterator;
 use Eventum\Console\Formatter\AnnotateFormatter;
 use Eventum\Console\Formatter\FormatterInterface;
 use Eventum\Console\Formatter\PhpdocFormatter;
-use Eventum_RPC;
 use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,11 +30,6 @@ class DumpMethodsCommand extends Command
 
     const FORMAT_PHPDOC = 'phpdoc';
     const FORMAT_ANNOTATE = 'annotate';
-
-    /**
-     * @var Eventum_RPC
-     */
-    private $client;
 
     protected function configure()
     {

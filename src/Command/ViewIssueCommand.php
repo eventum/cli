@@ -13,9 +13,7 @@
 
 namespace Eventum\Console\Command;
 
-use Eventum\RPC\RemoteApi;
-use Eventum_RPC;
-use Eventum_RPC_Exception;
+use Eventum\RPC\XmlRpcException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,11 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ViewIssueCommand extends Command
 {
     const COMMAND_NAME = 'issue:view';
-
-    /**
-     * @var RemoteApi|Eventum_RPC
-     */
-    private $client;
 
     protected function configure()
     {
@@ -125,8 +118,8 @@ EOT
     private function showAttachments($issue_id)
     {
         try {
-            $filelist = $this->client->getFileList($issue_id);
-        } catch (Eventum_RPC_Exception $e) {
+            $fileList = $this->client->getFileList($issue_id);
+        } catch (XmlRpcException $e) {
             // may throw "No files could be found"
             return;
         }
@@ -135,7 +128,7 @@ EOT
         $table->setHeaders(array('Attachments'));
 
         $i = 1;
-        foreach ($filelist as $attachment) {
+        foreach ($fileList as $attachment) {
             if ($i > 1) {
                 $table->addRow(new TableSeparator());
             }
