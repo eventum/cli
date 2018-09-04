@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ## [unreleased]
 
 - add phpdoc block annotation output format to dump-methods command, #8
+- add brew formulat to install with homebrew, #11
 
 [unreleased]: https://github.com/eventum/cli/compare/0.1.0...master
 
