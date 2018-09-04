@@ -4,6 +4,15 @@ This is new Eventum CLI Application.
 
 ## Installing ##
 
+### Homebrew (MacOS) / Linuxbrew
+
+```
+brew tap eventum/cli https://github.com/eventum/cli.git
+brew install eventum-cli
+```
+
+### Manually
+
 Download phar and start using it:
 
 1. download `eventum.phar` from [releases page](https://github.com/eventum/cli/releases/latest)
