@@ -11,6 +11,14 @@ brew tap eventum/cli https://github.com/eventum/cli.git
 brew install eventum-cli
 ```
 
+### PHIVE
+
+Install [PHIVE](https://phar.io/) and issue the following command:
+
+```
+phive install eventum/cli
+```
+
 ### Manually
 
 Download phar and start using it:
