@@ -228,15 +228,19 @@ class Command extends BaseCommand
     }
 
     /**
-     * If user has not specified project id via commandline,
-     * ask it from user, unless user belongs to exactly one project.
+     * Figure out project id:
+     * - commandline
+     * - config: default_project
+     * - user projects
+     *
+     * If user belongs to multiple projects, ask user which project to use.
      *
      * @throws InvalidArgumentException
      * @return int
      */
     protected function getProjectId()
     {
-        $project_id = $this->input->getOption('project');
+        $project_id = $this->input->getOption('project') ?: $this->config->get('default_project');
         if ($project_id) {
             return (int)$project_id;
         }
