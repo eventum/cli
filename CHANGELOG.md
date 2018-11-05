@@ -4,12 +4,13 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.1.1] - 2018-11-05
 
 - add phpdoc block annotation output format to dump-methods command, #8
 - add brew formulat to install with homebrew, #11
+- getproject: take default from config, #12
 
-[unreleased]: https://github.com/eventum/cli/compare/0.1.0...master
+[0.1.1]: https://github.com/eventum/cli/compare/0.1.0...0.1.1
 
 ## [0.1.0] - 2017-10-15
 
