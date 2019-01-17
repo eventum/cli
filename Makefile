@@ -20,13 +20,13 @@ composer_options :=
 all:
 	@echo 'Run "make eventum.phar" to build standalone eventum cli phar.'
 
-composer.lock:
+vendor/autoload.php: composer.lock
 	 $(composer) install --prefer-dist $(composer_options)
 
-eventum.phar: composer.lock box.json
+eventum.phar: vendor/autoload.php box.json
 	 $(php) -d phar.readonly=0 $(box) build -v
 
-XMLRPC.md: Makefile composer.lock
+XMLRPC.md: Makefile vendor/autoload.php
 	$(php) eventum.php --no-ansi dump > $@.tmp && mv $@.tmp $@
 
 deps:
@@ -58,6 +58,6 @@ dist/.git:
 	git clone "$$git_url" dist -b gh-pages --depth=1
 
 distclean: clean
-	rm -rf composer.lock vendor *.phar
+	rm -rf vendor *.phar
 
 .PHONY: deps dist

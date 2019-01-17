@@ -3,7 +3,6 @@
 /eventum.phar
 /XMLRPC.md
 /.php_cs.cache
-/composer.lock
 /dist/
 /build/
 
