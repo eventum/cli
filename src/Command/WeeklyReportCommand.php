@@ -14,6 +14,8 @@
 namespace Eventum\Console\Command;
 
 use DateTime;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -73,45 +75,81 @@ EOT
         );
         $output->writeln('');
 
-        $output->writeln('Issues worked on:');
-        if ($data['issues']['other']) {
-            foreach ($data['issues']['other'] as $type => $issue) {
-                $iss_id = str_pad($issue['iss_id'], 5, ' ', STR_PAD_LEFT);
-                $output->writeln("{$iss_id} {$issue['iss_summary']}");
-            }
-        } else {
-            $output->writeln('No issues touched this time period');
-        }
         // TODO: handle separate closed, etc view options
-
-        $output->writeln('');
-        $output->writeln("New Issues Assigned:  {$data['new_assigned_count']}");
-
-        // iterate over issue statuses
-        foreach ($data['status_counts'] as $status) {
-            $title = str_pad($status['sta_title'], 22);
-            $output->writeln("$title {$status['total']}");
-        }
-        $total = count($data['issues']['other']) + count($data['issues']['closed']);
-        $output->writeln("Total Issues: $total");
-
-        $output->writeln('');
-        $output->writeln("Eventum Emails:       {$data['email_count']['associated']}");
-        $output->writeln("Other Emails:         {$data['email_count']['other']}");
-        $output->writeln("Total Phone Calls:    {$data['phone_count']}");
-        $output->writeln("Total Notes:          {$data['note_count']}");
-
-        $output->writeln('');
-        $time_spent = @$data['time_tracking']['Telephone_Discussion']['formatted_time'] ?: '00h 00m';
-        $output->writeln("Phone Time Spent:     $time_spent");
-        $time_spent = @$data['time_tracking']['Email_Discussion']['formatted_time'] ?: '00h 00m';
-        $output->writeln("Email Time Spent:     $time_spent");
-        $time_spent = @$data['time_tracking']['Login_Work']['formatted_time'] ?: '00h 00m';
-        $output->writeln("Login Time Spent:     $time_spent");
-
-        $output->writeln("Total Time Spent:     {$data['total_time']}");
+        $this->formatIssuesTable($data['issues']['other']);
+        $this->formatIssueStatuses($data['status_counts']);
+        $this->formatTimeTracking($data['time_tracking'], $data['total_time']);
+        $this->formatIssueStats($data);
     }
 
+    private function formatIssuesTable(array $issues)
+    {
+        $this->output->writeln('Issues worked on:');
+        if (!$issues) {
+            $this->output->writeln('No issues touched this time period');
+
+            return;
+        }
+
+        $table = new Table($this->output);
+        $rightAligned = new TableStyle();
+        $rightAligned->setPadType(STR_PAD_LEFT);
+        $table->setColumnStyle(0, $rightAligned);
+        $table->setHeaders(array('issue id', 'issue summary'));
+
+        foreach ($issues as $type => $issue) {
+            $table->addRow(array($issue['iss_id'], $issue['iss_summary']));
+        }
+
+        $table->render();
+    }
+
+    private function formatIssueStatuses(array $data)
+    {
+        $this->output->writeln('Issues by status:');
+        $table = new Table($this->output);
+        $table->setHeaders(array('status', 'count'));
+
+        foreach ($data as $status) {
+            $table->addRow(array($status['sta_title'], $status['total']));
+        }
+        $table->render();
+    }
+
+    private function formatIssueStats(array $data)
+    {
+        $table = new Table($this->output);
+        $table->addRow(array('New Issues Assigned', $data['new_assigned_count']));
+        $table->addRow(array('Total Issues', count($data['issues']['other']) + count($data['issues']['closed'])));
+
+        $table->addRow(array('Eventum Emails', $data['email_count']['associated']));
+        $table->addRow(array('Other Emails', $data['email_count']['other']));
+        $table->addRow(array('Total Phone Calls', $data['phone_count']));
+        $table->addRow(array('Total Notes', $data['note_count']));
+        $table->render();
+    }
+
+    private function formatTimeTracking(array $time_tracking, $total_time)
+    {
+        $table = new Table($this->output);
+        $table->setHeaders(array('Time Spent', ''));
+
+        $time_spent = @$time_tracking['Telephone_Discussion']['formatted_time'] ?: '00h 00m';
+        $table->addRow(array('Phone Time Spent', $time_spent));
+
+        $time_spent = @$time_tracking['Email_Discussion']['formatted_time'] ?: '00h 00m';
+        $table->addRow(array('Email Time Spent', $time_spent));
+
+        $time_spent = @$time_tracking['Login_Work']['formatted_time'] ?: '00h 00m';
+        $table->addRow(array('Login Time Spent', $time_spent));
+
+        $table->addRow(array('Total Time Spent', $total_time));
+        $table->render();
+    }
+
+    /**
+     * @return array
+     */
     private function getWeeklyReportData()
     {
         list($start, $end) = $this->getDateRange();
@@ -120,7 +158,10 @@ EOT
             'separate_closed' => $this->input->getOption('separate-closed'),
         );
 
-        return $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
+        /** @var array $data */
+        $data = $this->getClient()->getWeeklyReportData($prj_id, $start, $end, $options);
+
+        return $data;
     }
 
     private function getDateRange()
