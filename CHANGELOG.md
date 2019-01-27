@@ -4,6 +4,10 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
+## unreleased
+
+- weekly-report: format report as tables, #14
+
 ## [0.1.1] - 2018-11-05
 
 - add phpdoc block annotation output format to dump-methods command, #8
