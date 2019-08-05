@@ -1,8 +1,8 @@
 class EventumCli < Formula
   desc "Eventum CLI Application"
   homepage "https://github.com/eventum/cli"
-  url "https://github.com/eventum/cli/releases/download/0.1.1/eventum.phar"
-  sha256 "00379c8e6da03a36cfbb37860006c2cb244932b04cac49ebfe02daaffbc983fc"
+  url "https://github.com/eventum/cli/releases/download/0.1.2/eventum.phar"
+  sha256 "b0b280f990a8bbaa0a709ebbac9bbd73e544f4e3c2bba726dd497c922f54b59d"
   head "https://github.com/eventum/cli"
 
   bottle :unneeded
