@@ -424,36 +424,39 @@
         },
         {
             "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.4.2",
+            "version": "4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "9b400d2c102f2a55839af8f73279274ebe148526"
+                "reference": "cf6e605e09d001ce520bfa8e7b168cfa514e663b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/9b400d2c102f2a55839af8f73279274ebe148526",
-                "reference": "9b400d2c102f2a55839af8f73279274ebe148526",
+                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/cf6e605e09d001ce520bfa8e7b168cfa514e663b",
+                "reference": "cf6e605e09d001ce520bfa8e7b168cfa514e663b",
                 "shasum": ""
             },
             "require": {
                 "ext-xml": "*",
-                "php": ">=5.3.0"
+                "php": "^5.3.0 || ^7.0 || ^8.0"
+            },
+            "conflict": {
+                "phpxmlrpc/extras": "<= 0.6.3"
             },
             "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
-                "docbook/docbook-xsl": "~1.78",
                 "ext-curl": "*",
+                "ext-dom": "*",
                 "ext-mbstring": "*",
-                "indeyets/pake": "~1.99",
-                "phpunit/phpunit": ">=4.0.0, <6.0.0",
+                "phpunit/phpunit": "^4.8 || ^5.0 || ^8.5.14",
                 "phpunit/phpunit-selenium": "*",
-                "sami/sami": "~3.1"
+                "yoast/phpunit-polyfills": "*"
             },
             "suggest": {
                 "ext-curl": "Needed for HTTPS and HTTP 1.1 support, NTLM Auth etc...",
                 "ext-mbstring": "Needed to allow reception of requests/responses in character sets other than ASCII,LATIN-1,UTF-8",
-                "ext-zlib": "Needed for sending compressed requests and receiving compressed responses, if cURL is not available"
+                "ext-zlib": "Needed for sending compressed requests and receiving compressed responses, if cURL is not available",
+                "phpxmlrpc/extras": "Adds more featured Server classes and other useful bits",
+                "phpxmlrpc/jsonrpc": "Adds support for the JSON-RPC protocol"
             },
             "type": "library",
             "autoload": {
@@ -466,12 +469,17 @@
                 "BSD-3-Clause"
             ],
             "description": "A php library for building xmlrpc clients and servers",
-            "homepage": "http://gggeek.github.io/phpxmlrpc/",
+            "homepage": "https://gggeek.github.io/phpxmlrpc/",
             "keywords": [
                 "webservices",
+                "xml-rpc",
                 "xmlrpc"
             ],
-            "time": "2020-03-04T10:26:33+00:00"
+            "support": {
+                "issues": "https://github.com/gggeek/phpxmlrpc/issues",
+                "source": "https://github.com/gggeek/phpxmlrpc/tree/4.9.0"
+            },
+            "time": "2022-11-28T10:04:37+00:00"
         },
         {
             "name": "psr/log",
@@ -1853,5 +1861,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.3.29"
-    }
+    },
+    "plugin-api-version": "2.3.0"
 }
