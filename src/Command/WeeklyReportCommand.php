@@ -97,11 +97,29 @@ EOT
         $table->setColumnStyle(0, $rightAligned);
         $table->setHeaders(array('issue id', 'issue summary'));
 
+        $issueWidth = 0;
         foreach ($issues as $type => $issue) {
-            $table->addRow(array($issue['iss_id'], $issue['iss_summary']));
+            $issueId = $this->renderIssueLink($issue['iss_id']);
+            $table->addRow(array($issueId, $issue['iss_summary']));
         }
+        $table->setColumnWidth(0, 10);
+
+        $table->setColumnWidths(array(10, 0, 30));
 
         $table->render();
+    }
+
+    /**
+     * @see https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda#the-escape-sequence
+     * @see https://github.com/symfony/symfony/pull/29668
+     * @see https://github.com/symfony/console/commit/20e4894521056ff6aa059015143bb971d475469a#diff-5871b25b12684413fc82089739d41411 symfony 4.2+
+     * @see https://github.com/symfony/console/commit/4f04cf84d6b0ce4beae6d1ed7767043636d7bfab#diff-5871b25b12684413fc82089739d41411 4.3.0
+     * @see https://youtrack.jetbrains.com/issue/IDEA-204536
+     */
+    private function renderIssueLink($issue_id, $issue_link1 = '')
+    {
+        $issue_link = 'http://example.com';
+        return "\e]8;;{$issue_link}\e\\{$issue_id}\e]8;;\e\\";
     }
 
     private function formatIssueStatuses(array $data)
